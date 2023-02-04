@@ -1,5 +1,7 @@
 package hh5.twogaether.security;
 
+import hh5.twogaether.domain.users.entity.User;
+import hh5.twogaether.domain.users.entity.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
