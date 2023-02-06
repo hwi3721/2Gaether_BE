@@ -27,6 +27,7 @@ public class User {
 //    private String stringAddress;   //위도경도좌표 -> 한글 주소 변환이 어려울 시 사용
     private Double latitude;   //  위도
     private Double longitude;  //  경도
+
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
