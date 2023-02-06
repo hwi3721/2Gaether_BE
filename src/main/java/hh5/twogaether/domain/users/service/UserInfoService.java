@@ -41,7 +41,7 @@ public class UserInfoService {
 
     @Transactional  // 사용자 정보 삭제 기능. 나중에 쓸 수도 있을 것 같아 만들어놓습니다
     public void deleteMypage(UserDetailsImpl userDetails) {
-        User user = userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
+        User user = userRepository.findById(userDetails.getUser().getId()).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
         if (!user.isDelete()) {

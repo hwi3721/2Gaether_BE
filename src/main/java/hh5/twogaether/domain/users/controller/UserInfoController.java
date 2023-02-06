@@ -28,13 +28,13 @@ public class UserInfoController {
     @PatchMapping("/")
     public ResponseEntity<UserInfoResponseDto> patchMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                            UserInfoRequestDto userInfoRequestDto) {
-        userInfoService.patchMypage(userDetails.getUser().getUserId(), userInfoRequestDto);
+        userInfoService.patchMypage(userDetails.getUser().getId(), userInfoRequestDto);
         return new ResponseEntity<>(new UserInfoResponseDto(userInfoRequestDto), CREATED);
     }
 
     @GetMapping("/")
     public ResponseEntity<UserInfoResponseDto> showMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userInfoService.showMypage(userDetails.getUser().getUserId());
+        userInfoService.showMypage(userDetails.getUser().getId());
         return new ResponseEntity<>(new UserInfoResponseDto(userDetails.getUser()), OK);
     }
 }
