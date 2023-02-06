@@ -30,9 +30,19 @@ public class Dog /*extends BaseEntity*/{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
     public Dog(DogSignupRequestDto dogSignupRequestDto) {
         this.dogName = dogSignupRequestDto.getDogName();
-
+        this.dogSex = dogSignupRequestDto.getDogSex();
+        this.dogDetails = dogSignupRequestDto.getDogDetails();
+        this.isDelete = dogSignupRequestDto.getIsDelete();
     }
+    public void Dog(DogSignupRequestDto dogSignupRequestDto) {
+        this.dogName = dogSignupRequestDto.getDogName();
+        this.dogSex = dogSignupRequestDto.getDogSex();
+        this.dogDetails = dogSignupRequestDto.getDogDetails();
+        this.isDelete = dogSignupRequestDto.getIsDelete();
+    }
+
 }
 

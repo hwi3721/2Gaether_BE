@@ -29,6 +29,7 @@ public class UserInfoService {
         );
         return new UserInfoResponseDto(user);
     }
+
     @Transactional
     public UserInfoResponseDto patchMypage(Long userId, UserInfoRequestDto userInfoRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(

@@ -8,5 +8,6 @@ public class DogSignupRequestDto {
     private String dogName;
     private String dogSex;
     private String dogDetails;
+    private Boolean isDelete;
 
 }
