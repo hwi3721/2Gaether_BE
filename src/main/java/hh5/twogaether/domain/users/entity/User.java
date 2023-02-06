@@ -4,17 +4,20 @@ import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
+@Entity
 @Getter
+@NoArgsConstructor
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long Id;
 
     @Column(nullable = false)
     private String nickname;    // username이 들어오는 필드
@@ -28,7 +31,7 @@ public class User {
     private Double latitude;   //  위도
     private Double longitude;  //  경도
 
-    private List<Dog> dogs = new ArrayList<>();
+//    private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
