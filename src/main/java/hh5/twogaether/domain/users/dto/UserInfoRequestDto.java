@@ -4,7 +4,7 @@ import hh5.twogaether.domain.users.entity.UserRoleEnum;
 import lombok.Getter;
 
 @Getter
-public class UserRequestDto {
+public class UserInfoRequestDto {
     private String email;
     private String username;
     private String password;

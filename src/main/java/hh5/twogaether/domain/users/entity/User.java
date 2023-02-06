@@ -1,6 +1,6 @@
 package hh5.twogaether.domain.users.entity;
 
-import hh5.twogaether.domain.users.dto.UserRequestDto;
+import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,12 +24,12 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    public User(UserRequestDto userRequestDto) {
-        this.email = userRequestDto.getEmail();
-        this.username = userRequestDto.getUsername();
-        this.password = userRequestDto.getPassword();
-        this.role = userRequestDto.getRole();
-        this.latitude = userRequestDto.getLatitude();
-        this.longitude = userRequestDto.getLongitude();
+    public User(UserInfoRequestDto userInfoRequestDto) {
+        this.email = userInfoRequestDto.getEmail();
+        this.username = userInfoRequestDto.getUsername();
+        this.password = userInfoRequestDto.getPassword();
+        this.role = userInfoRequestDto.getRole();
+        this.latitude = userInfoRequestDto.getLatitude();
+        this.longitude = userInfoRequestDto.getLongitude();
     }
 }

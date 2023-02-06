@@ -1,7 +1,7 @@
 package hh5.twogaether.domain.users.service;
 
 import hh5.twogaether.domain.users.dto.UserInfoResponseDto;
-import hh5.twogaether.domain.users.dto.UserRequestDto;
+import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +10,11 @@ import hh5.twogaether.domain.users.entity.User;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserInfoService {
     private final UserRepository userRepository;
 
-    public void createUser(UserRequestDto userRequestDto) {
-        User user = new User(userRequestDto);
+    public void createUser(UserInfoRequestDto userInfoRequestDto) {
+        User user = new User(userInfoRequestDto);
         userRepository.save(user);
     }
 
