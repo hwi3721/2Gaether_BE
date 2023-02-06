@@ -25,9 +25,11 @@ public class Dog /*extends BaseEntity*/{
 
     @Column(nullable = false)
     private boolean isDelete = false;
+
     public Dog(DogSignupRequestDto dogSignupRequestDto) {
         this.dogName = dogSignupRequestDto.getDogName();
-
+        this.dogSex = dogSignupRequestDto.getDogSex();
+        this.dogDetails = dogSignupRequestDto.getDogDetails();
     }
 }
 
