@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.users.dto;
 
+import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.entity.UserRoleEnum;
 import lombok.Getter;
 
@@ -11,4 +12,5 @@ public class UserInfoRequestDto {
     private UserRoleEnum role;
     private Double latitude;
     private Double longitude;
+
 }
