@@ -20,20 +20,20 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
 
     @PostMapping("/")
-    public ResponseEntity<UserInfoResponseDto> createMypage(@RequestBody UserInfoRequestDto userInfoRequestDto) {
+    public ResponseEntity<UserInfoResponseDto> createMyPage(@RequestBody UserInfoRequestDto userInfoRequestDto) {
         userInfoService.createUserInfo(userInfoRequestDto);
         return new ResponseEntity<>(new UserInfoResponseDto(userInfoRequestDto), CREATED);
     }
 
     @PatchMapping("/")
-    public ResponseEntity<UserInfoResponseDto> patchMypage(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public ResponseEntity<UserInfoResponseDto> patchMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                            UserInfoRequestDto userInfoRequestDto) {
         userInfoService.patchMypage(userDetails.getUser().getUserId(), userInfoRequestDto);
         return new ResponseEntity<>(new UserInfoResponseDto(userInfoRequestDto), CREATED);
     }
 
     @GetMapping("/")
-    public ResponseEntity<UserInfoResponseDto> showMypage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<UserInfoResponseDto> showMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         userInfoService.showMypage(userDetails.getUser().getUserId());
         return new ResponseEntity<>(new UserInfoResponseDto(userDetails.getUser()), OK);
     }

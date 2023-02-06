@@ -4,7 +4,6 @@ import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;

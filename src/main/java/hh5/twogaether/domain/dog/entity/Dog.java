@@ -1,6 +1,7 @@
 package hh5.twogaether.domain.dog.entity;
 
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
+import hh5.twogaether.domain.users.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
