@@ -1,15 +1,14 @@
 package hh5.twogaether.domain.dog.entity;
 
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
-import hh5.twogaether.domain.users.entity.User;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Dog /*extends BaseEntity*/{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +24,9 @@ public class Dog /*extends BaseEntity*/{
     private String dogDetails;
 
     @Column(nullable = false)
-    private Boolean isDelete;
+    private boolean isDelete = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Dog(DogSignupRequestDto dogSignupRequestDto) {
@@ -42,4 +41,6 @@ public class Dog /*extends BaseEntity*/{
         this.dogDetails = dogSignupRequestDto.getDogDetails();
         this.isDelete = dogSignupRequestDto.getIsDelete();
     }
+
 }
+
