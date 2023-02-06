@@ -20,4 +20,13 @@ public class UserInfoResponseDto {
         this.latitude = user.getLatitude();
         this.longitude = user.getLongitude();
     }
+
+    public UserInfoResponseDto(UserInfoRequestDto userInfoRequestDto) {
+        this.email = userInfoRequestDto.getUsername();
+        this.username = userInfoRequestDto.getEmail();
+        this.password = userInfoRequestDto.getPassword();
+        this.role = userInfoRequestDto.getRole();
+        this.latitude = userInfoRequestDto.getLatitude();
+        this.longitude = userInfoRequestDto.getLongitude();
+    }
 }
