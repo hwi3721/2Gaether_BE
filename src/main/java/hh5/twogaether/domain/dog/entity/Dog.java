@@ -30,3 +30,4 @@ public class Dog /*extends BaseEntity*/{
 
     }
 }
+
