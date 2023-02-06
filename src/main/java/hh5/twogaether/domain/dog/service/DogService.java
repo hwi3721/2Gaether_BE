@@ -1,6 +1,5 @@
 package hh5.twogaether.domain.dog.service;
 
-import hh5.twogaether.domain.dog.dto.DogImageRequestDto;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.repository.DogRepository;
 import hh5.twogaether.domain.dog.entity.Dog;
