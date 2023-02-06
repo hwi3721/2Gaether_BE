@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Dog /*extends BaseEntity*/{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dogId;
+    private Long id;
 
     @Column(nullable = false)
     private String dogName;

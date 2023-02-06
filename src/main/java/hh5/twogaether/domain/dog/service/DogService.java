@@ -27,7 +27,7 @@ public class DogService {
         return dogRepository.findByOrderByDogId();
     }
 
-    //
+    //강아지 정보 수정
     @Transactional
     public void patchMyDog(long id, DogSignupRequestDto dogSignupRequestDto, Dog dog) {
         dog = dogRepository.findById(id).orElseThrow(
@@ -36,5 +36,14 @@ public class DogService {
 
         dog.Dog(dogSignupRequestDto);
     }
+
+    @Transactional
+    public void deleteMyDog(long id){
+        dogRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("강아지의 아이디가 존재하지 않습니다.")
+        );
+        dogRepository.deleteById(id);
+    }
+
 
     }
