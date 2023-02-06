@@ -4,12 +4,15 @@ import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
+@Table(name = "Users")
+@NoArgsConstructor
+@Entity
 @Getter
 public class User {
     @Id
@@ -27,6 +30,7 @@ public class User {
 //    private String stringAddress;   //위도경도좌표 -> 한글 주소 변환이 어려울 시 사용
     private Double latitude;   //  위도
     private Double longitude;  //  경도
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
