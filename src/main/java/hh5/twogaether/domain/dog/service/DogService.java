@@ -22,9 +22,7 @@ public class DogService {
     }
 
     // 강아지 사진 보여줌 -> 산책 친구 매칭에서 사용될 것
-    public List<Dog> showDogs() {
-        return dogRepository.findByOrderByDogId();
-    }
+    public List<Dog> showDogs() { return dogRepository.findByOrderByDogId(); }
 
     //
     @Transactional

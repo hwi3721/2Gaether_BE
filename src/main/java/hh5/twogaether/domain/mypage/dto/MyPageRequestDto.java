@@ -1,11 +1,10 @@
-package hh5.twogaether.domain.users.dto;
+package hh5.twogaether.domain.mypage.dto;
 
-import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.entity.UserRoleEnum;
 import lombok.Getter;
 
 @Getter
-public class UserInfoRequestDto {
+public class MyPageRequestDto {
     private String email;
     private String username;
     private String password;
