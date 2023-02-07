@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 public class BaseEntity extends TimeStamped{
 
     @CreatedBy
-    private Long createBy;
+    private Long createdBy;
 
     @LastModifiedBy
     private Long modifiedBy;
