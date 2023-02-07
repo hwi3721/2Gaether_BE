@@ -1,7 +1,7 @@
 package hh5.twogaether.domain.users.entity;
 
 import hh5.twogaether.domain.dog.entity.Dog;
-import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
+import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,20 +36,20 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    public User(UserInfoRequestDto userInfoRequestDto) {
-        this.nickname = userInfoRequestDto.getUsername();
-        this.username = userInfoRequestDto.getEmail();
-        this.password = userInfoRequestDto.getPassword();
-        this.role = userInfoRequestDto.getRole();
-        this.latitude = userInfoRequestDto.getLatitude();
-        this.longitude = userInfoRequestDto.getLongitude();
+    public User(MyPageRequestDto myPageRequestDto) {
+        this.nickname = myPageRequestDto.getUsername();
+        this.username = myPageRequestDto.getEmail();
+        this.password = myPageRequestDto.getPassword();
+        this.role = myPageRequestDto.getRole();
+        this.latitude = myPageRequestDto.getLatitude();
+        this.longitude = myPageRequestDto.getLongitude();
     }
 
-    public void UserPatch(UserInfoRequestDto userInfoRequestDto) {
-        this.nickname = (userInfoRequestDto.getUsername() == null) ? this.getNickname() : userInfoRequestDto.getUsername();
-        this.username = (userInfoRequestDto.getEmail() == null) ? this.getUsername() : userInfoRequestDto.getEmail();
-        this.latitude = (userInfoRequestDto.getLatitude() == null) ? this.getLatitude() : userInfoRequestDto.getLatitude();
-        this.longitude = (userInfoRequestDto.getLongitude() == null) ? this.getLongitude() : userInfoRequestDto.getLongitude();
+    public void UserPatch(MyPageRequestDto myPageRequestDto) {
+        this.nickname = (myPageRequestDto.getUsername() == null) ? this.getNickname() : myPageRequestDto.getUsername();
+        this.username = (myPageRequestDto.getEmail() == null) ? this.getUsername() : myPageRequestDto.getEmail();
+        this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
+        this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
     }
     public void UserDelete() {
         this.isDelete = true;

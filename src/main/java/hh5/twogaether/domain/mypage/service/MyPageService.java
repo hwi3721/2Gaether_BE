@@ -1,47 +1,44 @@
-package hh5.twogaether.domain.users.service;
+package hh5.twogaether.domain.mypage.service;
 
-import hh5.twogaether.domain.users.dto.UserInfoResponseDto;
-import hh5.twogaether.domain.users.dto.UserInfoRequestDto;
+import hh5.twogaether.domain.mypage.dto.MyPageResponseDto;
+import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import hh5.twogaether.domain.users.repository.UserRepository;
-import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import hh5.twogaether.domain.users.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
-public class UserInfoService {
+public class MyPageService {
     private final UserRepository userRepository;
 
-    public UserInfoResponseDto createUserInfo(UserInfoRequestDto userInfoRequestDto) {
-        User user = new User(userInfoRequestDto);
+    public User createUserInfo(MyPageRequestDto myPageRequestDto) {
+        User user = new User(myPageRequestDto);
         userRepository.save(user);
-        return new UserInfoResponseDto(user);
+        return user;
     }
 
     // 이거 맞나? BaseEntity 되고 다시 만들게요
-    public UserInfoResponseDto showMypage(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
+    public MyPageResponseDto showMypage(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
-        return new UserInfoResponseDto(user);
+        return new MyPageResponseDto(user);
     }
 
     @Transactional
-    public UserInfoResponseDto patchMypage(Long userId, UserInfoRequestDto userInfoRequestDto) {
-        User user = userRepository.findById(userId).orElseThrow(
+    public User patchMypage(Long id, MyPageRequestDto myPageRequestDto) {
+        User user = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
-        user.UserPatch(userInfoRequestDto);
-        return new UserInfoResponseDto(user);
+        user.UserPatch(myPageRequestDto);
+        return user;
     }
 
     @Transactional  // 사용자 정보 삭제 기능. 나중에 쓸 수도 있을 것 같아 만들어놓습니다
-    public void deleteMypage(UserDetailsImpl userDetails) {
-        User user = userRepository.findById(userDetails.getUser().getId()).orElseThrow(
+    public void deleteMypage(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
         if (!user.isDelete()) {
