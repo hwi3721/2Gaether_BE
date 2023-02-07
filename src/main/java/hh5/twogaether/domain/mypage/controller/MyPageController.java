@@ -31,7 +31,7 @@ public class MyPageController {
         return new ResponseEntity<>(new MyPageResponseDto(user), CREATED);
     }
 
-    @GetMapping("")
+    @GetMapping(" ")
     public ResponseEntity<MyPageResponseDto> showMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         myPageService.showMypage(userDetails.getUser().getId());
         return new ResponseEntity<>(new MyPageResponseDto(userDetails.getUser()), OK);
