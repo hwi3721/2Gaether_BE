@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Dog extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "dog_id")
     private Long id;
 
     @Column(nullable = false)
@@ -28,6 +29,7 @@ public class Dog extends BaseEntity {
     private boolean isDelete = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Dog(DogSignupRequestDto dogSignupRequestDto) {
