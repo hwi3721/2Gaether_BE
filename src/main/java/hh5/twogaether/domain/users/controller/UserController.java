@@ -29,7 +29,7 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    @GetMapping
+    @GetMapping("/")
     public String healthCheck() {
         return "hello";
     }
