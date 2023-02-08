@@ -3,6 +3,7 @@ package hh5.twogaether.domain.users.controller;
 import hh5.twogaether.domain.users.dto.LoginRequestDto;
 import hh5.twogaether.domain.users.dto.LoginResponseDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
+import hh5.twogaether.domain.users.dto.SignUpResponseDto;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.service.UserService;
 import hh5.twogaether.security.jwt.JwtUtil;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 import static hh5.twogaether.security.jwt.JwtUtil.AUTHORIZATION_HEADER;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j
@@ -34,11 +36,11 @@ public class UserController {
 
     //회원 가입
     @PostMapping("/users/signup")
-    public String signUp(@RequestBody SignUpRequestDto signupRequestDto) {
+    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto signupRequestDto) {
         userService.checkEmailDuplication(signupRequestDto.getEmail());
         userService.createUser(signupRequestDto);
 
-        return "ok";
+        return new ResponseEntity<>(new SignUpResponseDto(CREATED.value(), "회원가입 완료"), CREATED);
     }
 
     @PostMapping("/users/login")
