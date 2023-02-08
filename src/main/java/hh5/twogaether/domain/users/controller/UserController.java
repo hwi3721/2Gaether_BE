@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping("/")
     public String healthCheck() {
-        return "hello";
+        return "hello1";
     }
 
     //회원 가입
