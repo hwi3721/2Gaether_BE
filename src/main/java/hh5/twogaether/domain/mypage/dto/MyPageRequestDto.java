@@ -8,7 +8,6 @@ public class MyPageRequestDto {
     private String email;
     private String username;
     private String password;
-    private UserRoleEnum role;
     private Double latitude;
     private Double longitude;
 

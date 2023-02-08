@@ -6,11 +6,13 @@ import hh5.twogaether.domain.users.dto.SignUpRequestDto;
 import hh5.twogaether.util.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Entity
 @Getter
 @NoArgsConstructor
@@ -46,22 +48,15 @@ public class User extends TimeStamped {
         this.role = signupRequestDto.getUserRole();
     }
 
-    public User(MyPageRequestDto myPageRequestDto) {
-        this.nickname = myPageRequestDto.getUsername();
-        this.username = myPageRequestDto.getEmail();
-        this.password = myPageRequestDto.getPassword();
-        this.role = myPageRequestDto.getRole();
-        this.latitude = myPageRequestDto.getLatitude();
-        this.longitude = myPageRequestDto.getLongitude();
-    }
+    public void patchUser(MyPageRequestDto myPageRequestDto) {
 
-    public void UserPatch(MyPageRequestDto myPageRequestDto) {
         this.nickname = (myPageRequestDto.getUsername() == null) ? this.getNickname() : myPageRequestDto.getUsername();
         this.username = (myPageRequestDto.getEmail() == null) ? this.getUsername() : myPageRequestDto.getEmail();
         this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
         this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
     }
-    public void UserDelete() {
+
+    public void deleteUser() {
         this.isDelete = true;
     }
 
