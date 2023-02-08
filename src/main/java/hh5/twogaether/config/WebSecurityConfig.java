@@ -28,7 +28,7 @@ public class WebSecurityConfig {
 
     private static final String[] test_url = {"/admin/login","/admin/signup", "/admin/main","/upload","/dogs","/dogs/**"};
 
-    private static final String[] permitUrl = {"/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
+    private static final String[] permitUrl = {"/users/**"}; // cors test 용 "/cors/**"
 
     private static final List<String> permitOrigin =
             List.of("https://....vercel.app");
@@ -67,6 +67,8 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(permitUrl).permitAll()
                 .antMatchers(test_url).permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
