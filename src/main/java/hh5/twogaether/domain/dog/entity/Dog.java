@@ -32,19 +32,21 @@ public class Dog extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Dog(DogSignupRequestDto dogSignupRequestDto) {
+    public Dog(DogSignupRequestDto dogSignupRequestDto, User user) {
         this.dogName = dogSignupRequestDto.getDogName();
         this.dogSex = dogSignupRequestDto.getDogSex();
         this.dogDetails = dogSignupRequestDto.getDogDetails();
-        this.isDelete = dogSignupRequestDto.getIsDelete();
+        this.user = user;
     }
 
-    public void Dog(DogSignupRequestDto dogSignupRequestDto) {
-        this.dogName = dogSignupRequestDto.getDogName();
-        this.dogSex = dogSignupRequestDto.getDogSex();
-        this.dogDetails = dogSignupRequestDto.getDogDetails();
-        this.isDelete = dogSignupRequestDto.getIsDelete();
+    public void patchDog(DogSignupRequestDto dogSignupRequestDto) {
+        this.dogName = (dogSignupRequestDto.getDogName()==null)? this.getDogName() : dogSignupRequestDto.getDogName();
+        this.dogSex = (dogSignupRequestDto.getDogSex()==null)? this.getDogSex() : dogSignupRequestDto.getDogSex();
+        this.dogDetails = (dogSignupRequestDto.getDogDetails()==null)? this.getDogDetails() : dogSignupRequestDto.getDogDetails();
+    }
+
+    public void deleteDog(){
+        this.isDelete = true;
     }
 
 }
-
