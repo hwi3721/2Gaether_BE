@@ -81,6 +81,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
         config.addAllowedOrigin("https://....vercel.app");
+        config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedMethod("*");
 //        config.setAllowedHeaders(permitHeader);
 
