@@ -2,6 +2,8 @@ package hh5.twogaether.domain.users.entity;
 
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
+import hh5.twogaether.domain.users.dto.SignUpRequestDto;
+import hh5.twogaether.util.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "Users")
-public class User {
+public class User extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +37,13 @@ public class User {
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
+
+    public User(SignUpRequestDto signupRequestDto) {
+        this.nickname = signupRequestDto.getUsername();
+        this.username = signupRequestDto.getEmail();
+        this.password = signupRequestDto.getPassword();
+        this.role = signupRequestDto.getUserRole();
+    }
 
     public User(MyPageRequestDto myPageRequestDto) {
         this.nickname = myPageRequestDto.getUsername();
