@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private static final String[] test_url = {"/admin/login","/admin/signup", "/admin/main","/upload","/dogs","/dogs/**"};
+    private static final String[] test_url = {"/**","/admin/signup", "/admin/main"};
 
     private static final String[] permitUrl = {"/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
 
@@ -81,6 +81,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
         config.addAllowedOrigin("https://....vercel.app");
+        config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedMethod("*");
 //        config.setAllowedHeaders(permitHeader);
 

@@ -29,9 +29,9 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    @GetMapping
+    @GetMapping("/")
     public String healthCheck() {
-        return "hello";
+        return "hello world!";
     }
 
     //회원 가입
