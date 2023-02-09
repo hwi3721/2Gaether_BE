@@ -17,7 +17,7 @@ public class OauthController {
      * OAuth 로그인 시 인증 코드를 넘겨받은 후 첫 로그인 시 회원가입
      */
     // redirect url 과 authorization code 를 받아온다.
-    @GetMapping("/login/oauth/{providerName}")
+    @PostMapping("/login/oauth/{providerName}")
     public String login(@PathVariable String providerName,
                                                   @RequestBody KakaoLoginRequestDto kakaoRequestDto) throws IllegalAccessException {
         log.info("[Controller] providerName = {}, code = {}", providerName, kakaoRequestDto.getCode());
