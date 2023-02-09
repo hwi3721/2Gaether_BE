@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class GmailController {
-    private GmailServiceImpl gmailServiceImpl;
+    private final GmailServiceImpl gmailServiceImpl;
     @PostMapping("/emailConfirm")
     public String emailConfirm(@RequestParam String email) throws Exception {
         return gmailServiceImpl.sendSimpleMessage(email);

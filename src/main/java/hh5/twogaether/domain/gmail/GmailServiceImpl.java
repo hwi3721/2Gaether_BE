@@ -39,7 +39,7 @@ public class GmailServiceImpl implements GmailService{
         msgg+= ePw+"</strong><div><br/> ";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
-        message.setFrom(new InternetAddress("properties에 입력한 이메일","투개더 주인장"));//보내는 사람
+        message.setFrom(new InternetAddress("lsh3721@gmail.com","투개더 주인장"));//보내는 사람
 
         return message;
     }
