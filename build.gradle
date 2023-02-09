@@ -25,6 +25,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // JWT
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
