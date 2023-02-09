@@ -44,7 +44,10 @@ public class OauthService {
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
         // authorization code 로 액세스 토큰 요청해서 받아옴
         OAuth2AccessTokenResponse tokenResponse = getToken(code, provider);
+        log.info("[Service] tokenResponse = {}", tokenResponse.toString());
+
         String email = getUerProfile(providerName, tokenResponse, provider);
+        log.info("email = {}", email);
 
         // access, refresh 토큰 만들고
 
