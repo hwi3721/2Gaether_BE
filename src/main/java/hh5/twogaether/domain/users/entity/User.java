@@ -41,6 +41,12 @@ public class User extends TimeStamped {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    public User(String nickname, String email, String providerId) {
+        this.nickname = nickname;
+        this.username = email;
+        this.password = providerId;
+    }
+
     public User(SignUpRequestDto signupRequestDto) {
         this.nickname = signupRequestDto.getUsername();
         this.username = signupRequestDto.getEmail();
