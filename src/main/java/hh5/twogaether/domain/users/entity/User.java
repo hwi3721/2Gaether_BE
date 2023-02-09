@@ -34,12 +34,18 @@ public class User extends TimeStamped {
 //    private String stringAddress;   //위도경도좌표 -> 한글 주소 변환이 어려울 시 사용
     private Double latitude;   //  위도
     private Double longitude;  //  경도
-
+    private String detailAddress;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
+
+    public User(String nickname, String email, String providerId) {
+        this.nickname = nickname;
+        this.username = email;
+        this.password = providerId;
+    }
 
     public User(SignUpRequestDto signupRequestDto) {
         this.nickname = signupRequestDto.getUsername();
@@ -54,6 +60,7 @@ public class User extends TimeStamped {
         this.username = (myPageRequestDto.getEmail() == null) ? this.getUsername() : myPageRequestDto.getEmail();
         this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
         this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
+        this.detailAddress = (myPageRequestDto.getDetailAddress() == null) ? this.getDetailAddress() : myPageRequestDto.getDetailAddress();
     }
 
     public void deleteUser() {
