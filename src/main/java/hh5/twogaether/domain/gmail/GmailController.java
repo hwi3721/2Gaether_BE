@@ -13,10 +13,8 @@ import java.util.Random;
 public class GmailController {
     private final GmailServiceImpl gmailServiceImpl;
     @PostMapping("/emailConfirm")
-//    @ResponseBody
+    @ResponseBody
     public ResponseEntity<Void> emailConfirm(@RequestBody GmailRequestDto email) throws Exception {
-        Random rnd = new Random();
-        rnd.setSeed(System.currentTimeMillis());
         gmailServiceImpl.sendSimpleMessage(email);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
