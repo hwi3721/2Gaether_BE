@@ -7,6 +7,7 @@ import hh5.twogaether.util.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,6 +36,14 @@ public class User extends TimeStamped {
     private Double latitude;   //  위도
     private Double longitude;  //  경도
     private String detailAddress;
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int emailCheck;
+
+    public void updateUserEmailCheck() {
+        this.emailCheck = 1;
+    }
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
