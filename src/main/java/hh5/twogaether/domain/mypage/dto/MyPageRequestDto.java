@@ -10,5 +10,6 @@ public class MyPageRequestDto {
     private String password;
     private Double latitude;
     private Double longitude;
+    private String detailAddress;
 
 }
