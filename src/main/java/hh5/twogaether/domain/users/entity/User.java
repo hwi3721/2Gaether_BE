@@ -41,10 +41,10 @@ public class User extends TimeStamped {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    public User(String nickname, String email, String providerId) {
+    public User(String nickname, String email, String provider) {
         this.nickname = nickname;
         this.username = email;
-        this.password = providerId;
+        this.password = provider;
     }
 
     public User(SignUpRequestDto signupRequestDto) {
