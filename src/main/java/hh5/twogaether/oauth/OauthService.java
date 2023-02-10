@@ -1,6 +1,5 @@
 package hh5.twogaether.oauth;
 
-import hh5.twogaether.domain.users.dto.LoginResponseDto;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import hh5.twogaether.security.jwt.JwtUtil;
@@ -10,7 +9,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -42,8 +40,12 @@ public class OauthService {
     public String login(String providerName, String code) throws IllegalAccessException {
 
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
+        log.info("[Service] RedirectUri = {}",provider.getRedirectUri());
+        log.info("[Service] ClientId = {}",provider.getClientId());
+        log.info("[Service] ClientSecret = {}",provider.getClientSecret());
+        log.info("[Service] ClientSecret = {}",provider.getProviderDetails().getTokenUri());
         // authorization code 로 액세스 토큰 요청해서 받아옴
-        OAuth2AccessTokenResponse tokenResponse = getToken(code, provider);
+        OauthTokenResponseDto tokenResponse = getToken(code, provider);
         log.info("[Service] tokenResponse = {}", tokenResponse.toString());
 
         String email = getUerProfile(providerName, tokenResponse, provider);
@@ -56,33 +58,33 @@ public class OauthService {
     }
 
     // 1. authorization code 로 토큰 요청
-    private OAuth2AccessTokenResponse getToken(String code, ClientRegistration provider) {
+    private OauthTokenResponseDto getToken(String code, ClientRegistration provider) {
         return WebClient.create()
                 .post()
                 .uri(provider.getProviderDetails().getTokenUri())
                 .headers(header -> {  // HTTP Header 생성
+                    header.setBasicAuth(provider.getClientId(),provider.getClientSecret());
                     header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                    header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                     header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
                 })
                 .bodyValue(requestToken(code, provider))
                 .retrieve()
-                .bodyToMono(OAuth2AccessTokenResponse.class)
+                .bodyToMono(OauthTokenResponseDto.class)
                 .block();
     }
 
     // HTTP Body 생성
     private MultiValueMap<String, String> requestToken(String code, ClientRegistration provider) {
-        LinkedMultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", code);
         formData.add("grant_type", "authorization_code");
         formData.add("redirect_uri", provider.getRedirectUri());
-        formData.add("client_secret", provider.getClientSecret());
-        formData.add("client_id", provider.getClientId());
         return formData;
     }
 
     // 2. 받아온 "액세스 토큰"으로 카카오 API 호출 -> 카카오 사용자 정보 가져오기
-    private String getUerProfile(String providerName, OAuth2AccessTokenResponse tokenResponse,
+    private String getUerProfile(String providerName, OauthTokenResponseDto tokenResponse,
                                  ClientRegistration provider) throws IllegalAccessException {
         Map<String, Object> userAttributes = getUserAttributes(provider, tokenResponse);
         Oauth2UserInfo oauth2UserInfo = null;
@@ -107,11 +109,11 @@ public class OauthService {
     }
 
     private Map<String, Object> getUserAttributes(ClientRegistration provider,
-                                                  OAuth2AccessTokenResponse tokenResponse) {
+                                                  OauthTokenResponseDto tokenResponse) {
         return WebClient.create()
                 .get()
                 .uri(provider.getProviderDetails().getUserInfoEndpoint().getUri())
-                .headers(header -> header.setBearerAuth(tokenResponse.getAccessToken().getTokenValue()))
+                .headers(header -> header.setBearerAuth(tokenResponse.getAccessToken()))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
