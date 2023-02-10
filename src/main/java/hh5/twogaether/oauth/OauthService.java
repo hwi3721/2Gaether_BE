@@ -63,7 +63,9 @@ public class OauthService {
                 .post()
                 .uri(provider.getProviderDetails().getTokenUri())
                 .headers(header -> {  // HTTP Header 생성
+                    header.setBasicAuth(provider.getClientId(),provider.getClientSecret());
                     header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                    header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                     header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
                 })
                 .bodyValue(requestToken(code, provider))
@@ -74,12 +76,10 @@ public class OauthService {
 
     // HTTP Body 생성
     private MultiValueMap<String, String> requestToken(String code, ClientRegistration provider) {
-        LinkedMultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", code);
         formData.add("grant_type", "authorization_code");
         formData.add("redirect_uri", provider.getRedirectUri());
-        formData.add("client_secret", provider.getClientSecret());
-        formData.add("client_id", provider.getClientId());
         return formData;
     }
 
