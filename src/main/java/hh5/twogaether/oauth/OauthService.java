@@ -40,16 +40,10 @@ public class OauthService {
     public String login(String providerName, String code) throws IllegalAccessException {
 
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
-        log.info("[Service] RedirectUri = {}",provider.getRedirectUri());
-        log.info("[Service] ClientId = {}",provider.getClientId());
-        log.info("[Service] ClientSecret = {}",provider.getClientSecret());
-        log.info("[Service] ClientSecret = {}",provider.getProviderDetails().getTokenUri());
-        // authorization code 로 액세스 토큰 요청해서 받아옴
+        // 1. authorization code 로 액세스 토큰 요청해서 받아오기
         OauthTokenResponseDto tokenResponse = getToken(code, provider);
-        log.info("[Service] tokenResponse = {}", tokenResponse.toString());
-
+        // 2. 액세스 토큰으로 유저 정보 받아오기
         String email = getUerProfile(providerName, tokenResponse, provider);
-        log.info("email = {}", email);
 
         // access, refresh 토큰 만들고
 
@@ -57,15 +51,13 @@ public class OauthService {
 
     }
 
-    // 1. authorization code 로 토큰 요청
+    // 1-1. authorization code 로 토큰 요청 webflux 로 WebClient 사용해서 요청
     private OauthTokenResponseDto getToken(String code, ClientRegistration provider) {
         return WebClient.create()
                 .post()
                 .uri(provider.getProviderDetails().getTokenUri())
                 .headers(header -> {  // HTTP Header 생성
-                    header.setBasicAuth(provider.getClientId(),provider.getClientSecret());
                     header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                    header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                     header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
                 })
                 .bodyValue(requestToken(code, provider))
@@ -74,12 +66,14 @@ public class OauthService {
                 .block();
     }
 
-    // HTTP Body 생성
+    // 1-2. HTTP Body 생성
     private MultiValueMap<String, String> requestToken(String code, ClientRegistration provider) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", code);
         formData.add("grant_type", "authorization_code");
         formData.add("redirect_uri", provider.getRedirectUri());
+        formData.add("client_secret", provider.getClientSecret());
+        formData.add("client_id", provider.getClientId());
         return formData;
     }
 
@@ -95,7 +89,6 @@ public class OauthService {
         }
 
         String provide = oauth2UserInfo.getProvider();
-//        String providerId = oauth2UserInfo.getProviderId();
         String nickname = oauth2UserInfo.getNickname();
         String email = oauth2UserInfo.getEmail();
 
@@ -108,6 +101,7 @@ public class OauthService {
         return email;
     }
 
+    // 2-2. HTTP RequestBody 생성 및 Response
     private Map<String, Object> getUserAttributes(ClientRegistration provider,
                                                   OauthTokenResponseDto tokenResponse) {
         return WebClient.create()
