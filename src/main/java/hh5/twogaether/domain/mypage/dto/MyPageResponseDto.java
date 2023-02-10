@@ -24,7 +24,13 @@ public class MyPageResponseDto {
         this.role = user.getRole();
         this.latitude = user.getLatitude();
         this.longitude = user.getLongitude();
-        this.myDogs = user.getDogs();
+        List<Dog> realMyDogs = new ArrayList<>();
+        for (Dog dog : user.getDogs()) {
+            if (!dog.isDelete()){
+                realMyDogs.add(dog);
+            }
+        }
+        this.myDogs = realMyDogs;
     }
 
 //    public UserInfoResponseDto(UserInfoRequestDto userInfoRequestDto) {
