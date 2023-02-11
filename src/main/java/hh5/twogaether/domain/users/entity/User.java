@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.users.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
@@ -36,6 +37,7 @@ public class User extends TimeStamped {
     private Double longitude;  //  경도
     private String detailAddress;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
