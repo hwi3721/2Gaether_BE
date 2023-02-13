@@ -1,6 +1,6 @@
-package hh5.twogaether.chatting.repository;
+package hh5.twogaether.domain.chat.repository;
 
-import hh5.twogaether.chatting.dto.ChatRoom;
+import hh5.twogaether.domain.chat.dto.ChatRoom;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;

@@ -1,4 +1,4 @@
-package hh5.twogaether.chatting.dto;
+package hh5.twogaether.domain.chat.dto;
 
 import lombok.Getter;
 import lombok.Setter;

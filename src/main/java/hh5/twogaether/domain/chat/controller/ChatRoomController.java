@@ -1,6 +1,7 @@
-package hh5.twogaether.chatting.controller;
+package hh5.twogaether.domain.chat.controller;
 
-import hh5.twogaether.chatting.dto.ChatRoom;
+import hh5.twogaether.domain.chat.dto.ChatRoom;
+import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatRoomController {
 
-    private final hh5.twogaether.chatting.repository.ChatRoomRepository chatRoomRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     // 채팅 리스트 화면
     @GetMapping("/room")
