@@ -25,7 +25,7 @@ public class MatchService {
         );
         List<MatchResponseDto> matchs = new ArrayList<>();
         for (User user : users) {
-            if (!user.isDelete()) {
+            if (!user.getId().equals(id)&&!user.isDelete()) {
                 if (5 >= roundDistance(calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(),user.getLongitude()))) {
                     MatchResponseDto matchResponseDto = new MatchResponseDto(user);
                     matchs.add(matchResponseDto);
