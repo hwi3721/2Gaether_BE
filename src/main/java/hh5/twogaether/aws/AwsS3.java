@@ -28,8 +28,10 @@ public class AwsS3 {
     @Value("${aws.secret.key}")
     private String secretKey;
 
-    private Regions clientRegion = Regions.AP_NORTHEAST_2;
-    private String bucket = "bamdule-bucket";
+    private Regions clientRegion = Regions.US_EAST_1;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket ;
 
 
     private AwsS3() {
@@ -62,20 +64,11 @@ public class AwsS3 {
         uploadToS3(new PutObjectRequest(this.bucket, key, file));
     }
 
-    public void upload(InputStream is, String key, String contentType, long contentLength) {
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(contentType);
-        objectMetadata.setContentLength(contentLength);
-
-        uploadToS3(new PutObjectRequest(this.bucket, key, is, objectMetadata));
-    }
-
     //PutObjectRequest는 Aws S3 버킷에 업로드할 객체 메타 데이터와 파일 데이터로 이루어져있다.
     private void uploadToS3(PutObjectRequest putObjectRequest) {
 
         try {
             this.s3Client.putObject(putObjectRequest);
-            System.out.println(String.format("[%s] upload complete", putObjectRequest.getKey()));
 
         } catch (AmazonServiceException e) {
             e.printStackTrace();
@@ -98,8 +91,6 @@ public class AwsS3 {
             //Copy
             this.s3Client.copyObject(copyObjRequest);
 
-            System.out.println(String.format("Finish copying [%s] to [%s]", orgKey, copyKey));
-
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         } catch (SdkClientException e) {
@@ -113,7 +104,6 @@ public class AwsS3 {
             DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, key);
             //Delete
             this.s3Client.deleteObject(deleteObjectRequest);
-            System.out.println(String.format("[%s] deletion complete", key));
 
         } catch (AmazonServiceException e) {
             e.printStackTrace();

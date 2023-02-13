@@ -41,6 +41,7 @@ public class UserService {
 //        if (users.getEmailCheck() == 0) {
 //            throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
 //        } //  로그인 시 이메일 인증 여부 확인
+
         return users;
     }
 

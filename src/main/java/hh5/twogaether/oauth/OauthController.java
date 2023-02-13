@@ -20,7 +20,7 @@ public class OauthController {
     @PostMapping("/login/oauth/{providerName}")
     public String login(@PathVariable String providerName,
                                                   @RequestBody KakaoLoginRequestDto kakaoRequestDto) throws IllegalAccessException {
-        log.info("[Controller] providerName = {}, code = {}", providerName, kakaoRequestDto.getCode());
-        return oauthService.login(providerName, kakaoRequestDto.getCode());
+        String email = oauthService.login(providerName, kakaoRequestDto.getCode());
+        return email;
     }
 }
