@@ -36,7 +36,7 @@ public class UserController {
 
     //회원 가입
     @PostMapping("/users/signup")
-    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto signupRequestDto) {
+    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto signupRequestDto) throws Exception {
         userService.checkEmailDuplication(signupRequestDto.getEmail());
         userService.createUser(signupRequestDto);
 

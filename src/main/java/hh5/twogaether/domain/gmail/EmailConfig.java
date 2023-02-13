@@ -11,7 +11,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-public class GmailConfig {
+public class EmailConfig {
 
     @Value("${mail.smtp.port}")
     private int port;
