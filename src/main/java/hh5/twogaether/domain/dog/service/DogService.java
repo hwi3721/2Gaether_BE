@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.Optional;
 
 import static hh5.twogaether.exception.message.ExceptionMessage.NOT_EXISTED_ID;
@@ -36,6 +37,7 @@ public class DogService {
     }
 
     @Transactional
+
     public void deleteMyDog(Long id,User user) {
 
         Dog dog = dogRepository.findById(id).orElseThrow(
