@@ -2,7 +2,6 @@ package hh5.twogaether.oauth;
 
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
-import hh5.twogaether.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -28,7 +27,6 @@ public class OauthService {
 
     private final InMemoryClientRegistrationRepository inMemoryRepository;
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
 
     /**
      * @InMemoryRepository 는 application-oauth properties 정보를 담고 있음
@@ -44,8 +42,6 @@ public class OauthService {
         OauthTokenResponseDto tokenResponse = getToken(code, provider);
         // 2. 액세스 토큰으로 유저 정보 받아오기
         String email = getUerProfile(providerName, tokenResponse, provider);
-
-        // access, refresh 토큰 만들고
 
         return email;
 
