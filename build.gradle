@@ -24,6 +24,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
 
     // email
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -47,9 +48,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
     //s3 의존성 주입
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
@@ -57,8 +55,17 @@ dependencies {
 
     //웹소켓
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars.bower:vue:2.5.16'
+    implementation 'org.webjars:sockjs-client:1.1.2'
+    implementation 'org.webjars:stomp-websocket:2.3.3-1'
+    implementation 'com.google.code.gson:gson:2.8.0'
 
-}
+    //부트 스트랩, axios
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+    implementation 'org.webjars.bower:bootstrap:4.3.1'
+    implementation 'org.webjars.bower:axios:0.17.1'
+
+    }
 
 tasks.named('test') {
     useJUnitPlatform()
