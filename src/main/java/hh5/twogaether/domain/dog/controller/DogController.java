@@ -1,7 +1,6 @@
 package hh5.twogaether.domain.dog.controller;
 
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
-import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.dog.service.DogService;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +21,17 @@ public class DogController {
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping("/{id}")
-    private ResponseEntity patchDogInfo(@PathVariable long id,@RequestBody DogSignupRequestDto dogSignupRequestDto,Dog dog){
-        dogService.patchMyDog(id,dogSignupRequestDto,dog);
+    @PatchMapping
+    private ResponseEntity patchDogInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody DogSignupRequestDto dogSignupRequestDto){
+        dogService.patchMyDog(userDetails.getUser().getId(), dogSignupRequestDto);
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
+
     @DeleteMapping("/{id}")
-    private ResponseEntity deleteDogInfo(@PathVariable long id){
-        dogService.deleteMyDog(id);
+    private ResponseEntity deleteDogInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        dogService.deleteMyDog(id,userDetails.getUser());
+
         return new ResponseEntity(202, HttpStatus.ACCEPTED);
     }
 }

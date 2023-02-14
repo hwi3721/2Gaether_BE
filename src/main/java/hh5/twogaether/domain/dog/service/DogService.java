@@ -4,46 +4,52 @@ import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.repository.DogRepository;
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.users.entity.User;
+import hh5.twogaether.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
+import java.util.Optional;
+
+import static hh5.twogaether.exception.message.ExceptionMessage.NOT_EXISTED_ID;
 
 @Service
 @RequiredArgsConstructor
 public class DogService {
     private final DogRepository dogRepository;
+    private final UserRepository userRepository;
 
     // 회원 가입시 입력해야하는 강아지 정보
-    public void createDog(DogSignupRequestDto dogSignupRequestDto, User user){
-        Dog dog = new Dog(dogSignupRequestDto);
-        dogRepository.save(dog);
-    }
+    public void createDog(DogSignupRequestDto dogSignupRequestDto, User user) {
+        Dog dog = new Dog(dogSignupRequestDto, user);
 
-    // 강아지 사진 보여줌 -> 산책 친구 매칭에서 사용될 것
-    public List<Dog> showDogs() {
-        return dogRepository.findByOrderById();
+        dogRepository.save(dog);
     }
 
     //강아지 정보 수정
     @Transactional
-    public void patchMyDog(long id, DogSignupRequestDto dogSignupRequestDto, Dog dog) {
-        dog = dogRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("강아지의 아이디가 존재하지 않습니다.")
+    public void patchMyDog(Long id, DogSignupRequestDto dogSignupRequestDto) {
+        Dog dog = dogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-
-        dog.Dog(dogSignupRequestDto);
+        dog.patchDog(dogSignupRequestDto);
     }
 
     @Transactional
-    public void deleteMyDog(long id){
-        dogRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("강아지의 아이디가 존재하지 않습니다.")
+
+    public void deleteMyDog(Long id,User user) {
+
+        Dog dog = dogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-        dogRepository.deleteById(id);
+        userRepository.findById(user.getId()).orElseThrow(
+                ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
+        );
+
+        if(user.getId().equals(dog.getCreatedBy())){
+            dog.deleteDog();
+        }
     }
 
-
-    }
+}
