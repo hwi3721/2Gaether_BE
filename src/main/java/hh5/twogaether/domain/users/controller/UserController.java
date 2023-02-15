@@ -52,4 +52,11 @@ public class UserController {
 
         return new ResponseEntity<>(new LoginResponseDto(OK.value(), "로그인 완료", user.getUsername()),OK);
     }
+
+    @PostMapping("/users/dupcheck")
+    public ResponseEntity<SignUpResponseDto> dupcheck(@RequestBody SignUpRequestDto signUpRequestDto) {
+        userService.checkEmailDuplication(signUpRequestDto.getEmail());
+        return new ResponseEntity<>(new SignUpResponseDto(OK.value(), "사용 가능한 이메일입니다."), OK);
+    }
+
 }

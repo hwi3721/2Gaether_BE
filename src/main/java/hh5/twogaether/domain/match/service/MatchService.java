@@ -17,26 +17,25 @@ import static java.util.Collections.shuffle;
 @RequiredArgsConstructor
 public class MatchService {
     private final UserRepository userRepository;
-
-    public List<MatchResponseDto> showmatchs(Long id) {
+    public List<MatchResponseDto> showMatches(Long id) {
         List<User> users = userRepository.findAll();
         User me = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
-        List<MatchResponseDto> matchs = new ArrayList<>();
+        log.info("[showMatches] id = {}",id);
+        log.info("[showMatches] size = {}", users.size());
+        List<MatchResponseDto> matches = new ArrayList<>();
         for (User user : users) {
-            if (!user.getId().equals(id)&&!user.isDelete()) {
-                if (5 >= roundDistance(calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(),user.getLongitude()))) {
-                    MatchResponseDto matchResponseDto = new MatchResponseDto(user);
-                    matchs.add(matchResponseDto);
-                    shuffle(matchs);
-                }
+            if (5 >= roundDistance(calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(),user.getLongitude()))
+                    &&!user.getId().equals(id)
+                    &&!user.isDelete()) {
+                MatchResponseDto matchResponseDto = new MatchResponseDto(user);
+                matches.add(matchResponseDto);
+                shuffle(matches);
             }
-
         }
-        return matchs;
+        return matches;
     }
-
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         lat1 = Math.toRadians(lat1);
         lon1 = Math.toRadians(lon1);
@@ -44,6 +43,7 @@ public class MatchService {
         lon2 = Math.toRadians(lon2);
 
         double earthRadius = 6371; //Kilometers
+        log.info("distance = "+earthRadius * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2)));
         return earthRadius * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));
     }
 

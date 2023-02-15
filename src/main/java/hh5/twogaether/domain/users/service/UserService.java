@@ -27,7 +27,7 @@ public class UserService {
         String encryptPassword = passwordEncoder.encode(signupRequestDto.getPassword());
         SignUpRequestDto encryptSignUpRequestDto = new SignUpRequestDto(signupRequestDto, encryptPassword);
         User user = new User(encryptSignUpRequestDto);
-        emailService.sendSimpleMessage(user.getUsername(),user.getNickname(),user.getId());
+        emailService.sendSimpleMessage(user.getUsername(),user.getNickname());
         userRepository.save(user);
     }
 
