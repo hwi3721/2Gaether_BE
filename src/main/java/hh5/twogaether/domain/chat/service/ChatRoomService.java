@@ -56,12 +56,17 @@ public class ChatRoomService {
     }
 
     @Transactional
-    public void createChatMsg(String roomId, String chatText, String sender) {
-        Optional<User> memberSender = userRepository.findByNickname(sender);
-        Optional<ChatRoom> chatRoom = chatRoomRepository.findByRoomId(roomId);
-
-        ChatMsg chatMsg = new ChatMsg(chatRoom.get(), chatText, memberSender.get());
+    public void createChatMsg(ChatMessage message) {
+//        Optional<User> memberSender = userRepository.findByNickname(sender);
+//        Optional<ChatRoom> chatRoom = chatRoomRepository.findByRoomId(roomId);
+//
+//        ChatMsg chatMsg = new ChatMsg(chatRoom.get(), chatText, memberSender.get());
+        String msg = message.getMessage();
+        if(msg !=null){
+            ChatMsg chatMsg = new ChatMsg();
+            messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         chatMsgRepository.save(chatMsg);
+        }
 
     }
 }
