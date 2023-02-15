@@ -21,10 +21,11 @@ public class DogService {
     private final UserRepository userRepository;
 
     // 회원 가입시 입력해야하는 강아지 정보
-    public void createDog(DogSignupRequestDto dogSignupRequestDto, User user) {
+    public Dog createDog(DogSignupRequestDto dogSignupRequestDto, User user) {
         Dog dog = new Dog(dogSignupRequestDto, user);
 
         dogRepository.save(dog);
+        return dog;
     }
 
     //강아지 정보 수정

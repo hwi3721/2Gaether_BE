@@ -2,12 +2,15 @@ package hh5.twogaether.domain.dog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
+import hh5.twogaether.domain.image.entity.Image;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +36,9 @@ public class Dog extends BaseEntity {
     @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "dog", orphanRemoval = true)
+    private List<Image> dogImages = new ArrayList<>();
 
     public Dog(DogSignupRequestDto dogSignupRequestDto, User user) {
         this.dogName = dogSignupRequestDto.getDogName();
