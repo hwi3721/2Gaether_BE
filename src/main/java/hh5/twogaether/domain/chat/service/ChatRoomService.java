@@ -1,16 +1,12 @@
 package hh5.twogaether.domain.chat.service;
 
-import hh5.twogaether.domain.chat.dto.ChatMessage;
-import hh5.twogaether.domain.chat.entity.ChatMsg;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
-import hh5.twogaether.domain.chat.repository.ChatMsgRepository;
+import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
-import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -20,7 +16,7 @@ import java.util.*;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatMsgRepository chatMsgRepository;
+    private final ChatMessageRepository chatMessageRepository;
     private Map<String, ChatRoom> chatRoomMap;
     private final UserRepository userRepository;
     private final SimpMessageSendingOperations messagingTemplate;
@@ -55,18 +51,4 @@ public class ChatRoomService {
         return chatRoom;
     }
 
-    @Transactional
-    public void createChatMsg(ChatMessage message) {
-//        Optional<User> memberSender = userRepository.findByNickname(sender);
-//        Optional<ChatRoom> chatRoom = chatRoomRepository.findByRoomId(roomId);
-//
-//        ChatMsg chatMsg = new ChatMsg(chatRoom.get(), chatText, memberSender.get());
-        String msg = message.getMessage();
-        if(msg !=null){
-            ChatMsg chatMsg = new ChatMsg();
-            messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-        chatMsgRepository.save(chatMsg);
-        }
-
-    }
 }
