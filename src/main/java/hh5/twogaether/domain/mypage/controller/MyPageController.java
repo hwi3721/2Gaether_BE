@@ -29,7 +29,7 @@ public class MyPageController {
 
     @GetMapping("")
     public ResponseEntity<MyPageResponseDto> showMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        myPageService.showMyPage(userDetails.getUser().getId());
-        return new ResponseEntity<>(new MyPageResponseDto(userDetails.getUser()), OK);
+        MyPageResponseDto myPageResponseDto = myPageService.showMyPage(userDetails.getUser().getId());
+        return new ResponseEntity<>(myPageResponseDto, OK);
     }
 }
