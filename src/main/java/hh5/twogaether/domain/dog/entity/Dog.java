@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.dog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.util.BaseEntity;
@@ -29,6 +30,7 @@ public class Dog extends BaseEntity {
     private boolean isDelete = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.users.service;
 
+import hh5.twogaether.domain.gmail.EmailService;
 import hh5.twogaether.domain.users.dto.LoginRequestDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
 import hh5.twogaether.domain.users.entity.User;
@@ -20,12 +21,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final EmailService emailService;
     @Transactional
-    public void createUser(SignUpRequestDto signupRequestDto) {
+    public void createUser(SignUpRequestDto signupRequestDto) throws Exception {
         String encryptPassword = passwordEncoder.encode(signupRequestDto.getPassword());
         SignUpRequestDto encryptSignUpRequestDto = new SignUpRequestDto(signupRequestDto, encryptPassword);
         User user = new User(encryptSignUpRequestDto);
+        emailService.sendSimpleMessage(user.getUsername(),user.getNickname(),user.getId());
         userRepository.save(user);
     }
 
@@ -36,6 +38,9 @@ public class UserService {
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), users.getPassword())) {
             throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
         }
+//        if (users.getEmailCheck() == 0) {
+//            throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
+//        } //  로그인 시 이메일 인증 여부 확인
 
 
 

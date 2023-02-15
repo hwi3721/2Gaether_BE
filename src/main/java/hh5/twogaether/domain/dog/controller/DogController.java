@@ -27,9 +27,11 @@ public class DogController {
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping
-    private ResponseEntity deleteDogInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        dogService.deleteMyDog(userDetails.getUser().getId());
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity deleteDogInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        dogService.deleteMyDog(id,userDetails.getUser());
+
         return new ResponseEntity(202, HttpStatus.ACCEPTED);
     }
 }

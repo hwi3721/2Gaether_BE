@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.users.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
@@ -7,6 +8,7 @@ import hh5.twogaether.util.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,16 +37,25 @@ public class User extends TimeStamped {
     private Double latitude;   //  위도
     private Double longitude;  //  경도
     private String detailAddress;
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int emailCheck;
+
+    public void updateUserEmailCheck() {
+        this.emailCheck = 1;
+    }
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    public User(String nickname, String email, String providerId) {
+    public User(String nickname, String email, String provider) {
         this.nickname = nickname;
         this.username = email;
-        this.password = providerId;
+        this.password = provider;
     }
 
     public User(SignUpRequestDto signupRequestDto) {
