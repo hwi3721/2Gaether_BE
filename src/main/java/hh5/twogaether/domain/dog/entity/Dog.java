@@ -33,7 +33,7 @@ public class Dog extends BaseEntity {
     private boolean isDelete = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

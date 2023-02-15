@@ -19,8 +19,7 @@ public class MatchController {
     private final MatchService matchService;
 
     @GetMapping("")
-    public List<MatchResponseDto> showMatchs(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<MatchResponseDto> match = matchService.showmatchs(userDetails.getUser().getId());
-        return match;
+    public List<MatchResponseDto> showMatches(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return matchService.showMatches(userDetails.getUser().getId());
     }
 }

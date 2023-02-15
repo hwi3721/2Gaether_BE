@@ -31,6 +31,7 @@ public class User extends TimeStamped {
     //username을 spring에서 사용중이라 중복 허용 시 spring과 충돌
     //(front)username -> (back)nickname
     //(front)email -> (back)username@Column(nullable = false, unique = true)                                            //(front)email -> (back)username
+    @Column(nullable = false)
     private String username;    // 이게 email이 들어오는 필드
     private String password;
 //    private String stringAddress;   //위도경도좌표 -> 한글 주소 변환이 어려울 시 사용
@@ -45,8 +46,8 @@ public class User extends TimeStamped {
         this.emailCheck = 1;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "user", orphanRemoval = true/*, cascade = CascadeType.ALL*/)
+//    @JsonIgnore
     private List<Dog> dogs = new ArrayList<>();
     private boolean isDelete = false;
     @Enumerated(value = EnumType.STRING)
@@ -68,7 +69,7 @@ public class User extends TimeStamped {
     public void patchUser(MyPageRequestDto myPageRequestDto) {
 
         this.nickname = (myPageRequestDto.getUsername() == null) ? this.getNickname() : myPageRequestDto.getUsername();
-        this.username = (myPageRequestDto.getEmail() == null) ? this.getUsername() : myPageRequestDto.getEmail();
+//        this.username = (myPageRequestDto.getEmail() == null) ? this.getUsername() : myPageRequestDto.getEmail();
         this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
         this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
         this.detailAddress = (myPageRequestDto.getDetailAddress() == null) ? this.getDetailAddress() : myPageRequestDto.getDetailAddress();

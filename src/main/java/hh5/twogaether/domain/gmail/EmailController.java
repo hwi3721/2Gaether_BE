@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EmailController {
     private final EmailServiceImpl emailServiceImpl;
-    @GetMapping("/email/{emailCode}/{userId}")
+    @GetMapping("/email/{emailCode}/{userEmail}")
     public ResponseEntity<EmailCheckSuccessResponseDto> emailConfirm(@PathVariable String emailCode,
-                                                                     @PathVariable Long userId)  throws Exception {
-        emailServiceImpl.emailLinkCheck(emailCode, userId);
+                                                                     @PathVariable String userEmail)  throws Exception {
+        emailServiceImpl.emailLinkCheck(emailCode, userEmail);
 
         EmailCheckSuccessResponseDto emailCheckSuccessResponseDto = new EmailCheckSuccessResponseDto(200, ResponseMessage.EMAIL_SUCCESS_CHECK_LINK);
         return new ResponseEntity<>(emailCheckSuccessResponseDto, HttpStatus.OK);
