@@ -117,10 +117,10 @@ public class EmailServiceImpl implements EmailService {
 //        return key.toString();
 //    }
     @Override
-    public String sendSimpleMessage(String to, String username)throws Exception, SQLIntegrityConstraintViolationException {
+    public String sendSimpleMessage(String nickname, String to)throws Exception, SQLIntegrityConstraintViolationException {
         // TODO Auto-generated method stub
-        String link = createLink(username);
-        MimeMessage message = createMessage(to, link, username);
+        String link = createLink(to);
+        MimeMessage message = createMessage(to, link, nickname);
         try{//예외처리
             // DB에 이미 해당 유저의 인증링크가 존재하면 Exception
             // 이메일 링크 저장부터 먼저하기
