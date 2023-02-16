@@ -38,7 +38,6 @@ public class DogService {
     }
 
     @Transactional
-
     public void deleteMyDog(Long id,User user) {
 
         Dog dog = dogRepository.findById(id).orElseThrow(

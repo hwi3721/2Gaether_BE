@@ -3,10 +3,12 @@ package hh5.twogaether.domain.chat.controller;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatRoomController {
 
-    private final ChatRoomService chatRoomService;
+    private final ChatRoomService ChatRoomService;
 
     // 채팅 리스트 화면
     @GetMapping("/room")
@@ -25,13 +27,15 @@ public class ChatRoomController {
     @GetMapping("/rooms")
     @ResponseBody
     public List<ChatRoom> room() {
-        return chatRoomService.findAllRoom();
+        return ChatRoomService.findAllRoom();
     }
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom() {
-        return chatRoomService.createChatRoom();
+    public ChatRoom createRoom(@Param("chat/room")String room) {
+        System.out.println("control room" + room);
+
+        return ChatRoomService.createChatRoom();
     }
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
@@ -43,6 +47,6 @@ public class ChatRoomController {
     @GetMapping("/room/{roomId}")
     @ResponseBody
     public ChatRoom roomInfo(@PathVariable String roomId) {
-        return chatRoomService.findRoomById(roomId);
+        return ChatRoomService.findRoomById(roomId);
     }
 }

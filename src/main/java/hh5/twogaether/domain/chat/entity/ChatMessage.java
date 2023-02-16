@@ -1,12 +1,10 @@
 package hh5.twogaether.domain.chat.entity;
 
+import hh5.twogaether.domain.users.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -22,6 +20,15 @@ public class ChatMessage {
     private MessageType type; // 메시지 타입
     private String roomId; // 방번호
     private String sender; // 메시지 보낸사람
+    @Column(nullable = false)
     private String message; // 메시지
-}
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+//    @ManyToOne
+//    private User user;
+//    @ManyToOne
+//    private User user2;
+}
