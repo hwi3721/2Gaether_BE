@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,26 +33,24 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Transactional
-    public String emailLinkCheck(String emailLink, Long userId) {
+    public String emailLinkCheck(String emailLink, String userEmail) {
         log.info("이메일 링크 확인 중");
 
         Optional<EmailValidation> emailValidationOptional = emailRepository.findByLink(emailLink);
 
         if(emailValidationOptional.isPresent()) {
             //user 이메일 인증여부 1로 변경
-            Optional<User> userOptional = userRepository.findById(userId);
-
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                user.updateUserEmailCheck();
-                log.info("이메일 인증 완료");
-            }
-        } else {    //  이메일 링크가 DB에 존재하지 않음
-            throw new IllegalArgumentException(ResponseMessage.EMAIL_FAIL_CHECK_LINK);
+            User user = userRepository.findByUsername(userEmail).orElseThrow(
+                    ()-> new IllegalArgumentException("아아아아이디가 없어요")
+            );
+            user.updateUserEmailCheck();
+            log.info("이메일 인증 완료");
+            } else {    //  이메일 링크가 DB에 존재하지 않음
+                throw new IllegalArgumentException(ResponseMessage.EMAIL_FAIL_CHECK_LINK);
         }
         return null;
     }
-    private MimeMessage createMessage(String to, String link, String username, Long userId)throws Exception{
+    private MimeMessage createMessage(String to, String link, String username)throws Exception{
         System.out.println("보내는 대상 : "+ to);
         System.out.println("인증 링크 : "+ link);
         MimeMessage  message = emailSender.createMimeMessage();
@@ -70,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg+= "<h3 style='color:blue;'>회원가입 인증 링크입니다.</h3>";
         msgg+= "LINK : <strong>";
-        msgg+= "<a href=\"" + hostAddress + "/users/email/" + link + "/" + userId + "\">";
+        msgg+= "<a href=\"" + hostAddress + "/users/email/" + link + "/" + username + "\">";
         msgg+= link+"</strong><div><br/> ";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
@@ -118,10 +117,10 @@ public class EmailServiceImpl implements EmailService {
 //        return key.toString();
 //    }
     @Override
-    public String sendSimpleMessage(String to, String username, Long userId)throws Exception, SQLIntegrityConstraintViolationException {
+    public String sendSimpleMessage(String to, String username)throws Exception, SQLIntegrityConstraintViolationException {
         // TODO Auto-generated method stub
         String link = createLink(username);
-        MimeMessage message = createMessage(to, link, username, userId);
+        MimeMessage message = createMessage(to, link, username);
         try{//예외처리
             // DB에 이미 해당 유저의 인증링크가 존재하면 Exception
             // 이메일 링크 저장부터 먼저하기

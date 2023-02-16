@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class MyPageRequestDto {
-    private String email;
+//    private String email;
     private String username;
     private String password;
     private Double latitude;
