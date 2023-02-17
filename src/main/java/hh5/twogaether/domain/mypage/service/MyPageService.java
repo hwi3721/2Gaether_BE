@@ -14,6 +14,7 @@ public class MyPageService {
     private final UserRepository userRepository;
 
     // 이거 맞나? BaseEntity 되고 다시 만들게요
+    @Transactional(readOnly = true)
     public MyPageResponseDto showMyPage(Long id) {
         User user = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
