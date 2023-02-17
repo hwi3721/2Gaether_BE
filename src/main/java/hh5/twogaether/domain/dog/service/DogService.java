@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.dog.service;
 
+import hh5.twogaether.domain.dog.dto.DogResponseDto;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.repository.DogRepository;
 import hh5.twogaether.domain.dog.entity.Dog;
@@ -9,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.Optional;
 
 import static hh5.twogaether.exception.message.ExceptionMessage.NOT_EXISTED_ID;
 
@@ -28,17 +27,37 @@ public class DogService {
         return dog;
     }
 
-    //강아지 정보 수정
-    @Transactional
-    public void patchMyDog(Long id, DogSignupRequestDto dogSignupRequestDto) {
+    public DogResponseDto showYourDog(Long id, User user){
         Dog dog = dogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-        dog.patchDog(dogSignupRequestDto);
+
+        userRepository.findById(user.getId()).orElseThrow(
+                ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
+        );
+
+        if(!(user.getId().equals(dog.getCreatedBy()))){
+            throw new IllegalArgumentException(NOT_EXISTED_ID.getDescription());
+        }
+        return new DogResponseDto(dog);
+    }
+
+    //강아지 정보 수정
+    @Transactional
+    public void patchMyDog(Long id, User user, DogSignupRequestDto dogSignupRequestDto) {
+        Dog dog = dogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
+        );
+
+        userRepository.findById(user.getId()).orElseThrow(
+                ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
+        );
+
+        if(user.getId().equals(dog.getCreatedBy()))
+            dog.patchDog(dogSignupRequestDto);
     }
 
     @Transactional
-
     public void deleteMyDog(Long id,User user) {
 
         Dog dog = dogRepository.findById(id).orElseThrow(
