@@ -1,4 +1,4 @@
-package hh5.twogaether.domain.chat.dto;
+package hh5.twogaether.domain.chat.entity;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.dog.controller;
 
+import hh5.twogaether.domain.dog.dto.DogResponseDto;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.dog.service.DogService;
@@ -23,16 +24,21 @@ public class DogController {
     private final ImageService imageService;
 
     @PostMapping
-    private ResponseEntity saveDogInfo(@ModelAttribute DogSignupRequestDto dogRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    private ResponseEntity<Void> saveDogInfo(@ModelAttribute DogSignupRequestDto dogRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Dog savedDog = dogService.createDog(dogRequestDto, userDetails.getUser());
         List<String> imgUrls = imageService.upload(dogRequestDto.getImages(),savedDog);
         log.info("imgUrls = " + imgUrls);
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping
-    private ResponseEntity patchDogInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody DogSignupRequestDto dogSignupRequestDto){
-        dogService.patchMyDog(userDetails.getUser().getId(), dogSignupRequestDto);
+    @GetMapping("/{id}")
+    private ResponseEntity<DogResponseDto> showDogInfo(@PathVariable Long id , @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return new ResponseEntity<>(dogService.showYourDog(id,userDetails.getUser()),HttpStatus.ACCEPTED);
+    }
+
+    @PatchMapping("/{id}")
+    private ResponseEntity patchDogInfo(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody DogSignupRequestDto dogSignupRequestDto){
+        dogService.patchMyDog(id,userDetails.getUser(), dogSignupRequestDto);
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 

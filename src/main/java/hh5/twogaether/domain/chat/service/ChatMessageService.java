@@ -1,6 +1,6 @@
 package hh5.twogaether.domain.chat.service;
 
-import hh5.twogaether.domain.chat.dto.ChatMessage;
+import hh5.twogaether.domain.chat.entity.ChatMessage;
 import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
