@@ -3,7 +3,7 @@ package hh5.twogaether.domain.users.controller;
 import hh5.twogaether.domain.users.dto.LoginRequestDto;
 import hh5.twogaether.domain.users.dto.LoginResponseDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
-import hh5.twogaether.domain.users.dto.SignUpResponseDto;
+import hh5.twogaether.domain.users.dto.ResponseMessageDto;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.service.UserService;
 import hh5.twogaether.security.jwt.JwtUtil;
@@ -36,11 +36,11 @@ public class UserController {
 
     //회원 가입
     @PostMapping("/users/signup")
-    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto signupRequestDto) throws Exception {
+    public ResponseEntity<ResponseMessageDto> signUp(@RequestBody SignUpRequestDto signupRequestDto) throws Exception {
         userService.checkEmailDuplication(signupRequestDto.getEmail());
         userService.createUser(signupRequestDto);
 
-        return new ResponseEntity<>(new SignUpResponseDto(CREATED.value(), "회원가입 완료"), CREATED);
+        return new ResponseEntity<>(new ResponseMessageDto(CREATED.value(), "회원가입 완료"), CREATED);
     }
 
     @PostMapping("/users/login")
@@ -54,9 +54,9 @@ public class UserController {
     }
 
     @PostMapping("/users/dupcheck")
-    public ResponseEntity<SignUpResponseDto> dupcheck(@RequestBody SignUpRequestDto signUpRequestDto) {
+    public ResponseEntity<ResponseMessageDto> dupcheck(@RequestBody SignUpRequestDto signUpRequestDto) {
         userService.checkEmailDuplication(signUpRequestDto.getEmail());
-        return new ResponseEntity<>(new SignUpResponseDto(OK.value(), "사용 가능한 이메일입니다."), OK);
+        return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "사용 가능한 이메일입니다."), OK);
     }
 
 }
