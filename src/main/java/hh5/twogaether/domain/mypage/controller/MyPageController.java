@@ -20,14 +20,14 @@ import static org.springframework.http.HttpStatus.*;
 public class MyPageController {
     private final MyPageService myPageService;
 
-    @PatchMapping("")
+    @PatchMapping
     public ResponseEntity<MyPageResponseDto> patchMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                          @RequestBody MyPageRequestDto myPageRequestDto) {
         User user = myPageService.patchMyPage(userDetails.getUser().getId(), myPageRequestDto);
         return new ResponseEntity<>(new MyPageResponseDto(user), CREATED);
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<MyPageResponseDto> showMyPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         MyPageResponseDto myPageResponseDto = myPageService.showMyPage(userDetails.getUser().getId());
         return new ResponseEntity<>(myPageResponseDto, OK);
