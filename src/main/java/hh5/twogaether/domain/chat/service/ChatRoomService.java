@@ -3,17 +3,28 @@ package hh5.twogaether.domain.chat.service;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
+import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
+import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
+import hh5.twogaether.domain.users.entity.User;
+import hh5.twogaether.domain.users.repository.UserRepository;
+import hh5.twogaether.security.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private Map<String, ChatRoom> chatRoomMap;
+
+    private final UserRepository userRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
     @PostConstruct
     private void init() {
@@ -37,4 +48,5 @@ public class ChatRoomService {
         chatRoomRepository.save(chatRoom);
         return chatRoom;
     }
+
 }

@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import hh5.twogaether.domain.users.entity.User;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -24,4 +27,13 @@ public class ChatMessage {
     private String roomId; // 방번호
     private String sender; // 메시지 보낸사람
     private String message; // 메시지
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+//    @ManyToOne
+//    private User user;
+//    @ManyToOne
+//    private User user2;
 }

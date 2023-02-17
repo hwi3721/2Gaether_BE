@@ -23,4 +23,5 @@ public class ChatRoom {
         chatRoom.roomId = UUID.randomUUID().toString();
         return chatRoom;
     }
+
 }
