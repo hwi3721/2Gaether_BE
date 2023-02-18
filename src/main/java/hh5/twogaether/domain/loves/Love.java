@@ -13,15 +13,17 @@ public class Love {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "loving_user_id")
-    private User lovingUser;
-    @ManyToOne
-    @JoinColumn(name = "loved_user_id")
-    private User lovedUser;
+    private Long lovingId;
+    private Long lovedId;
+    private Integer matchCode = 0;  //  0 = 한 명만 좋아요, 1 = 둘 다 좋아요, 2 = 차단/dislike
 
-    public Love(User lovedUser, User lovingUser) {
-        this.lovedUser = lovedUser;
-        this.lovingUser = lovingUser;
+    public Love(Long lovedId, Long lovingId) {
+        this.lovedId = lovedId;
+        this.lovingId = lovingId;
+    }
+    public Love(Long lovedId, Long lovingId, Integer c) {
+        this.lovedId = lovedId;
+        this.lovingId = lovingId;
+        this.matchCode = c;
     }
 }

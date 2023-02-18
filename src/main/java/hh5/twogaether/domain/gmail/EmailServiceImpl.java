@@ -26,8 +26,8 @@ import java.util.Optional;
 public class EmailServiceImpl implements EmailService {
     @Autowired
     JavaMailSender emailSender;
-//    private static String hostAddress = "http://localhost:8080"; //미드콘으로 바꿔야함
-    private static String hostAddress = "https://midcon.shop"; //미드콘으로 바꿔야함
+    private static String hostAddress = "http://localhost:8080"; //미드콘으로 바꿔야함
+//    private static String hostAddress = "https://midcon.shop";
     private final EmailRepository emailRepository;
     private final UserRepository userRepository;
 
@@ -69,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg+= "<h3 style='color:blue;'>회원가입 인증 링크입니다.</h3>";
         msgg+= "LINK : <strong>";
-        msgg+= "<a href=\"" + hostAddress + "/users/email/" + link + "/" + username + "\">";
+        msgg+= "<a href=\"" + hostAddress + "/users/email/" + link + "/" + to + "\">";
         msgg+= link+"</strong><div><br/> ";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
