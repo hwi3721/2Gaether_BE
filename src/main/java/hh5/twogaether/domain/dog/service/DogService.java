@@ -35,7 +35,7 @@ public class DogService {
         userRepository.findById(user.getId()).orElseThrow(
                 ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-
+        if (dog.isDelete()) throw new IllegalArgumentException("삭제된 강아지");
         if(!(user.getId().equals(dog.getCreatedBy()))){
             throw new IllegalArgumentException(NOT_EXISTED_ID.getDescription());
         }
@@ -52,9 +52,10 @@ public class DogService {
         userRepository.findById(user.getId()).orElseThrow(
                 ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-
-        if(user.getId().equals(dog.getCreatedBy()))
+        if (dog.isDelete()) throw new IllegalArgumentException("삭제된 강아지");
+        if(user.getId().equals(dog.getCreatedBy())) {
             dog.patchDog(dogSignupRequestDto);
+        }
     }
 
     @Transactional
