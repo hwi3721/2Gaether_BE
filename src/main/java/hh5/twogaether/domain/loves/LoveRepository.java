@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface LoveRepository extends JpaRepository<Love, Long> {
-    Optional<Love> findByLovedUserAndLovingUser(Long lovedUserId, Long lovingUSerId);
+    Love findByLovedIdAndLovingId(Long lovedId, Long lovingId);
 }

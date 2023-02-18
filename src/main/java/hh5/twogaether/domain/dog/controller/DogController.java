@@ -8,6 +8,7 @@ import hh5.twogaether.domain.users.dto.ResponseMessageDto;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +33,15 @@ public class DogController {
         return new ResponseEntity<>(new ResponseMessageDto(CREATED.value(), "강아지 정보 저장 완료"), CREATED);
     }
 
-    @PatchMapping
-    private ResponseEntity<ResponseMessageDto> patchDogInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody DogSignupRequestDto dogSignupRequestDto){
-        dogService.patchMyDog(userDetails.getUser().getId(), dogSignupRequestDto);
-        return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "강아지 정보 수정 완료"), OK);
+    @GetMapping("/{id}")
+    private ResponseEntity<DogResponseDto> showDogInfo(@PathVariable Long id , @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return new ResponseEntity<>(dogService.showYourDog(id,userDetails.getUser()),HttpStatus.ACCEPTED);
+    }
+
+    @PatchMapping("/{id}")
+    private ResponseEntity patchDogInfo(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody DogSignupRequestDto dogSignupRequestDto){
+        dogService.patchMyDog(id,userDetails.getUser(), dogSignupRequestDto);
+        return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

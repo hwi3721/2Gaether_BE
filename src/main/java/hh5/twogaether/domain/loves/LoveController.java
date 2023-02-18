@@ -12,13 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/loves")
+@RequestMapping
 public class LoveController {
     private final LoveService loveService;
-    @PostMapping("/{lovedId}")
+    @PostMapping("/loves/{lovedId}")
     public ResponseEntity<Void> love(@PathVariable Long lovedId,
                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        loveService.love(lovedId, userDetails.getUser());
+        loveService.love(lovedId, userDetails.getUser().getId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/disloves/{dislovedId}")
+    public ResponseEntity<Void> dislove(@PathVariable Long dislovedId,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        loveService.dislove(dislovedId, userDetails.getUser().getId());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
