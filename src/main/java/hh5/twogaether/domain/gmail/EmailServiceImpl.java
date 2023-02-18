@@ -26,8 +26,8 @@ import java.util.Optional;
 public class EmailServiceImpl implements EmailService {
     @Autowired
     JavaMailSender emailSender;
-    private static String hostAddress = "http://localhost:8080"; //미드콘으로 바꿔야함
-//    private static String hostAddress = "https://midcon.shop";
+//    private static String hostAddress = "http://localhost:8080"; //미드콘으로 바꿔야함
+    private static String hostAddress = "https://midcon.shop";
     private final EmailRepository emailRepository;
     private final UserRepository userRepository;
 
