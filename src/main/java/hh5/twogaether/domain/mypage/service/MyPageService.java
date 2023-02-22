@@ -4,6 +4,7 @@ import hh5.twogaether.domain.mypage.dto.MyPageResponseDto;
 import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import hh5.twogaether.domain.users.entity.User;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MyPageService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 이거 맞나? BaseEntity 되고 다시 만들게요
     @Transactional(readOnly = true)
@@ -27,6 +29,11 @@ public class MyPageService {
         User user = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
+        if (!myPageRequestDto.getNewPassword().isBlank()) {
+            String encryptPassword = passwordEncoder.encode(myPageRequestDto.getNewPassword());
+            user.patchUser(new MyPageRequestDto(myPageRequestDto, encryptPassword));
+            return user;
+        }
         user.patchUser(myPageRequestDto);
         return user;
     }
