@@ -72,6 +72,7 @@ public class User extends TimeStamped {
 
     public void patchUser(MyPageRequestDto myPageRequestDto) {
         this.nickname = (myPageRequestDto.getUsername() == null) ? this.getNickname() : myPageRequestDto.getUsername();
+        this.password = (myPageRequestDto.getPassword() == null) ? this.getPassword() : myPageRequestDto.getPassword();
         this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
         this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
         this.detailAddress = (myPageRequestDto.getAddress() == null) ? this.getDetailAddress() : myPageRequestDto.getAddress();
