@@ -1,9 +1,10 @@
 package hh5.twogaether.domain.mypage.dto;
 
-import hh5.twogaether.domain.users.entity.UserRoleEnum;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MyPageRequestDto {
 
     private String username;
