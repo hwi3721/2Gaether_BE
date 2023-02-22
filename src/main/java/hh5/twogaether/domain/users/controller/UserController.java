@@ -10,10 +10,7 @@ import hh5.twogaether.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,7 +47,7 @@ public class UserController {
         User user = userService.login(loginRequestDto);
         response.addHeader(AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername()));
 
-        return new ResponseEntity<>(new LoginResponseDto(OK.value(), "로그인 완료", user.getUsername()),OK);
+        return new ResponseEntity<>(new LoginResponseDto(OK.value(), "로그인 완료", user.getUsername()), OK);
     }
 
     @PostMapping("/users/dupcheck")
@@ -58,5 +55,4 @@ public class UserController {
         userService.checkEmailDuplication(signUpRequestDto.getEmail());
         return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "사용 가능한 이메일입니다."), OK);
     }
-
 }
