@@ -1,8 +1,11 @@
 package hh5.twogaether.domain.chat.repository;
 
 import hh5.twogaether.domain.chat.entity.ChatRoom;
+import hh5.twogaether.domain.users.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ChatRoomRepository extends JpaRepository<ChatRoom,Long> {
-}
+import java.util.Optional;
 
+public interface ChatRoomRepository extends JpaRepository<ChatRoom,Long> {
+    ChatRoom findByUser1AndUser2(User user1, User user2);
+}
