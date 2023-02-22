@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    @Query("select u from User u where u.isDelete = false ")
+    List<User> findAllNotDeletedUser();
     Optional<User> findByUsername(String username);
     Optional<User> findByNickname(String username);
     Optional<User> findById(Long id);

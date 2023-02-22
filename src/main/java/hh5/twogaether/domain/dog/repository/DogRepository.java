@@ -11,4 +11,5 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     Dog findByOrderById(Long id);
 
     List<Dog> findByOrderById();
+    List<Dog> findByCreatedBy(Long createdBy);
 }

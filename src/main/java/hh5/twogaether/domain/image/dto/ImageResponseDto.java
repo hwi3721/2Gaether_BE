@@ -12,7 +12,7 @@ public class ImageResponseDto {
 
     private Long createdBy;
 
-    private String imageUrls;
+    private String imageUrl;
 
     private LocalDateTime createdAt;
 
@@ -20,7 +20,7 @@ public class ImageResponseDto {
         this.id = image.getId();
         this.createdBy = image.getCreatedBy();
         this.createdAt = image.getCreatedAt();
-        this.imageUrls = image.getImgUrl();
+        this.imageUrl = image.getImgUrl();
 
     }
 }
