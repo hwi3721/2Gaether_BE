@@ -26,7 +26,8 @@ public class LoveService {
         Love sendCase = loveRepository.findByOpponentIdAndCreatedBy(opponentId, myId);
         if (sendCase == null && acceptCase == null) {
             loveRepository.save(new Love(opponentId));
-        } else {
+        }
+        if (acceptCase != null) {
             acceptCase.accept();
         }
     }
