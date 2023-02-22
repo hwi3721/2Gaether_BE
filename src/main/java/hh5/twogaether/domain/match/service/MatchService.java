@@ -74,7 +74,7 @@ public class MatchService {
         for (User user : users) {
             double calculatedDistance = calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(), user.getLongitude());
             int roundDistance = roundDistance(calculatedDistance);
-            if ( me.getRange() >= roundDistance && !user.getId().equals(id) ) {
+            if ( me.getRanges() >= roundDistance && !user.getId().equals(id) ) {
                 matchRepository.save(new Match(user.getId(),roundDistance));
             }
         }
