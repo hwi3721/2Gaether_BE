@@ -27,7 +27,7 @@ public class UserService {
         String encryptPassword = passwordEncoder.encode(signupRequestDto.getPassword());
         SignUpRequestDto encryptSignUpRequestDto = new SignUpRequestDto(signupRequestDto, encryptPassword);
         User user = new User(encryptSignUpRequestDto);
-        emailService.sendSimpleMessage(user.getUsername(),user.getNickname());
+        emailService.sendSimpleMessage(user.getNickname(), user.getUsername());
         userRepository.save(user);
     }
 
@@ -38,9 +38,9 @@ public class UserService {
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), users.getPassword())) {
             throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
         }
-//        if (users.getEmailCheck() == 0) {
-//            throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
-//        } //  로그인 시 이메일 인증 여부 확인
+        if (users.getEmailCheck() == 0) {
+            throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
+        } //  로그인 시 이메일 인증 여부 확인
 
 
 
