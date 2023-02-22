@@ -19,14 +19,15 @@ public class MyPageResponseDto {
     private String username;
     private Double latitude;
     private Double longitude;
-    private String address;
+//    private String address;
     private List<DogMyPageDto> myDogs = new ArrayList<>();
+
     public MyPageResponseDto(User user) {
         this.email = user.getUsername();
         this.username = user.getNickname();
         this.latitude = user.getLatitude();
         this.longitude = user.getLongitude();
-        this.address = user.getDetailAddress();
+//        this.address = user.getDetailAddress();
         this.myDogs = user.getDogs().stream()
                 .filter(dog -> !dog.isDelete())
                 .map(dog -> new DogMyPageDto(dog))
