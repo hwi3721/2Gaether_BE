@@ -33,10 +33,10 @@ public class DogController {
         return new ResponseEntity<>(new ResponseMessageDto(CREATED.value(), "강아지 정보 저장 완료"), CREATED);
     }
 
-    @GetMapping("/{id}")
-    private ResponseEntity<DogResponseDto> showDogInfo(@PathVariable Long id , @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return new ResponseEntity<>(dogService.showYourDog(id,userDetails.getUser()),HttpStatus.ACCEPTED);
-    }
+//    @GetMapping("/{id}")
+//    private ResponseEntity<DogResponseDto> showDogInfo(@PathVariable Long id , @AuthenticationPrincipal UserDetailsImpl userDetails){
+//        return new ResponseEntity<>(dogService.showYourDog(id,userDetails.getUser()),HttpStatus.ACCEPTED);
+//    }
 
     @PatchMapping("/{id}")
     private ResponseEntity patchDogInfo(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody DogSignupRequestDto dogSignupRequestDto){
