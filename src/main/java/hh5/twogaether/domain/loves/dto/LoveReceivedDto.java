@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class LoveReceivedDto {
 
-    private Long id;
+    private Long userId;
 
     private String dogName;
 
@@ -16,7 +16,7 @@ public class LoveReceivedDto {
     private String imageUrl;
 
     public LoveReceivedDto(Love love, Dog dog) {
-        this.id = love.getCreatedBy();
+        this.userId = love.getCreatedBy();
         this.dogName = dog.getDogName();
         this.dogSex = dog.getDogSex();
         this.imageUrl = dog.getDogImages().get(0).getImgUrl();
