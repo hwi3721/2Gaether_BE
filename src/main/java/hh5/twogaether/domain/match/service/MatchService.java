@@ -1,13 +1,15 @@
 package hh5.twogaether.domain.match.service;
 
 import hh5.twogaether.domain.match.dto.MatchResponseDto;
+import hh5.twogaether.domain.match.entity.Match;
+import hh5.twogaether.domain.match.repository.MatchRepository;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.shuffle;
@@ -16,26 +18,68 @@ import static java.util.Collections.shuffle;
 @Service
 @RequiredArgsConstructor
 public class MatchService {
+
     private final UserRepository userRepository;
-    public List<MatchResponseDto> showMatches(Long id) {
-        List<User> users = userRepository.findAll();
+    private final MatchRepository matchRepository;
+
+    @Transactional
+    public MatchResponseDto getMatches(Long id) {
+        List<User> users = userRepository.findAllNotDeletedUser();
         User me = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
-        log.info("[showMatches] id = {}",id);
-        log.info("[showMatches] size = {}", users.size());
-        List<MatchResponseDto> matches = new ArrayList<>();
-        for (User user : users) {
-            if (5 >= roundDistance(calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(),user.getLongitude()))
-                    &&!user.getId().equals(id)
-                    &&!user.isDelete()) {
-                MatchResponseDto matchResponseDto = new MatchResponseDto(user);
-                matches.add(matchResponseDto);
-                shuffle(matches);
-            }
+        //기존에 저장된 리스트가 있을 시 기존 정보 사용, 없을 시 새 리스트 저장
+        if (matchRepository.findByCreatedBy(id).size() == 0) {
+            saveMatches(id, users, me);
         }
+
+        //좋아요, 싫어요 하지 않은 목록 불러와서 셔플
+        List<Match> matches = shuffleMatches(id);
+
+        //다 넘겨서 남은 매칭상대가 없는 경우 Matches 다 지우고 다시 갱신
+        if (matches.size() == 0) {
+            matchRepository.deleteAllByCreatedBy(id);
+            List<User> renewedUsers = userRepository.findAllNotDeletedUser();
+            User renewedMe = userRepository.findById(id).orElseThrow(
+                    ()-> new IllegalArgumentException("아무튼 안됨")
+            );
+            saveMatches(id, renewedUsers, renewedMe);
+            matches = shuffleMatches(id);
+        }
+        int distance = matches.get(0).getDistance();
+        Long opponentId = matches.get(0).getOpponentId();
+        User opponent = userRepository.findById(opponentId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 유저입니다.")
+        );
+        return new MatchResponseDto(opponent, distance);
+    }
+
+    //좋아요, 싫어요 하지 않은 목록 불러와서 셔플
+    private List<Match> shuffleMatches(Long id) {
+        List<Match> matches = matchRepository.findAllNotPassedByCreatedBy(id);
+        shuffle(matches);
+        log.info("size = {}",matches.size());
         return matches;
     }
+
+    // 좋아요, 싫어요
+    @Transactional
+    public void passUser(Long opponentId, Long myId) {
+        Match opponent = matchRepository.findByOpponentIdAndCreatedBy(opponentId, myId);
+        opponent.passUser();
+    }
+
+    //Match 리스트 저장
+    public void saveMatches(Long id, List<User> users, User me) {
+        for (User user : users) {
+            double calculatedDistance = calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(), user.getLongitude());
+            int roundDistance = roundDistance(calculatedDistance);
+            if ( me.getRange() >= roundDistance && !user.getId().equals(id) ) {
+                matchRepository.save(new Match(user.getId(),roundDistance));
+            }
+        }
+    }
+
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         lat1 = Math.toRadians(lat1);
         lon1 = Math.toRadians(lon1);
@@ -54,4 +98,6 @@ public class MatchService {
         }
         return (int) Math.round(distance);
     }
+
+
 }

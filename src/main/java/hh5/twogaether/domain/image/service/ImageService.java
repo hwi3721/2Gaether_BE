@@ -136,7 +136,7 @@ public class ImageService {
         return uuid + "." + ext; //확장자를 붙여주기 위한 작업
     }
 
-    //확장자 추출
+    //이미지 파일 확장자를 구분하고 이미지 파일일 시 확장자 추출
     private String extractExt(String originalFilename) {
         ArrayList<String> fileValidate = new ArrayList<>();
         fileValidate.add("jpg");
