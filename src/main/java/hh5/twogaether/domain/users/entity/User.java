@@ -51,7 +51,7 @@ public class User extends TimeStamped {
 
     private boolean isDelete = false;
 
-    private int range = 20;
+    private int ranges = 20;
 
     public User(String nickname, String email, String provider) {
         this.nickname = nickname;
@@ -75,7 +75,7 @@ public class User extends TimeStamped {
         this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
         this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
         this.detailAddress = (myPageRequestDto.getAddress() == null) ? this.getDetailAddress() : myPageRequestDto.getAddress();
-        this.range = (myPageRequestDto.getRange() == 0) ? this.getRange() : myPageRequestDto.getRange();
+        this.ranges = (myPageRequestDto.getRange() == 0) ? this.getRanges() : myPageRequestDto.getRange();
     }
 
     public void deleteUser() {

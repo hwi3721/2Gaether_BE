@@ -4,14 +4,12 @@ import hh5.twogaether.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Entity
 @NoArgsConstructor
+@Table(name = "Matches")
 public class Match extends BaseEntity {
 
     @Id
