@@ -34,8 +34,8 @@ public class User extends TimeStamped {
     private String username;    // 이게 email이 들어오는 필드
     private String password;
 
-    private Double latitude;   //  위도
-    private Double longitude;  //  경도
+    private Double latitude = 37.537187;   //  위도
+    private Double longitude = 127.005476;  //  경도
     private String address;
 
     @Enumerated(value = EnumType.STRING)
