@@ -47,6 +47,7 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
 //     h2-console 사용 및 resources 접근 허용 설정
 //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
