@@ -18,7 +18,7 @@ public class ChatController {
 
     @MessageMapping("/chat/message")
     @SendTo("/topic/public")
-    public void message(ChatMessage message) {
+    public void message(@Payload ChatMessage message) {
         messageService.createMessage(message);
 
     }

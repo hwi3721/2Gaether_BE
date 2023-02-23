@@ -13,19 +13,14 @@ import org.springframework.stereotype.Service;
 public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final SimpMessagingTemplate messagingTemplate;
-    private final UserService userService;
-    private final JwtUtil jwtUtil;
 
     public void createMessage(ChatMessage message) {
 
-//        String userName = userService.getUserNameByUserId(userId);
-
-//        if(message.getSender().equals())
-            if (ChatMessage.MessageType.ENTER.equals(message.getType()))
-                message.setMessage(message.getSender() + "님이 입장하셨습니다.");
-            messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-            chatMessageRepository.save(message);
-
-        }
+        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
+            message.setMessage(message.getSender() + "님이 입장하셨습니다.");
+        messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        chatMessageRepository.save(message);
 
     }
+
+}
