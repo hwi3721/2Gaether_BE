@@ -1,6 +1,5 @@
 package hh5.twogaether.domain.loves.entity;
 
-import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

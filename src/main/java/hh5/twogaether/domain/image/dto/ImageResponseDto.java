@@ -10,16 +10,10 @@ public class ImageResponseDto {
 
     private Long id;
 
-    private Long createdBy;
-
     private String imageUrl;
-
-    private LocalDateTime createdAt;
 
     public ImageResponseDto(Image image) {
         this.id = image.getId();
-        this.createdBy = image.getCreatedBy();
-        this.createdAt = image.getCreatedAt();
         this.imageUrl = image.getImgUrl();
 
     }

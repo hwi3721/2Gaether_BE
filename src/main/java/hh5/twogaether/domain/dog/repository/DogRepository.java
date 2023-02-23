@@ -10,6 +10,8 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     @Query("select d from Dog d where d.isDelete = false")
     Dog findByOrderById(Long id);
 
-    List<Dog> findByOrderById();
+    @Query("select d from Dog d where d.isDelete = false")
+    List<Dog> findAllNotDeletedDog();
+    
     List<Dog> findByCreatedBy(Long createdBy);
 }
