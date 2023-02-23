@@ -1,4 +1,4 @@
-package hh5.twogaether.oauth;
+package hh5.twogaether.oauth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

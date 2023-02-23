@@ -5,7 +5,6 @@ import hh5.twogaether.domain.loves.dto.LoveSentDto;
 import hh5.twogaether.domain.loves.service.LoveService;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -37,20 +36,20 @@ public class LoveController {
     }
 
     //수락
-    @PostMapping("/accept/{opponentId}")
+    @PostMapping("/accept/{dogId}")
     public ResponseEntity acceptLove(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                     @PathVariable Long opponentId) {
-        loveService.loveUser(opponentId, userDetails.getUser().getId());
+                                     @PathVariable Long dogId) {
+        loveService.loveUser(dogId, userDetails.getUser().getId());
         List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser().getId());
-        return new ResponseEntity(receivedLove, OK);
+        return new ResponseEntity(receivedLove, CREATED);
     }
 
     //거절
-    @PostMapping("/reject/{opponentId}")
+    @PostMapping("/reject/{dogId}")
     public ResponseEntity rejectLove(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                     @PathVariable Long opponentId) {
-        loveService.rejectLove(opponentId, userDetails.getUser().getId());
+                                     @PathVariable Long dogId) {
+        loveService.rejectLove(dogId, userDetails.getUser().getId());
         List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser().getId());
-        return new ResponseEntity(receivedLove, OK);
+        return new ResponseEntity(receivedLove, CREATED);
     }
 }

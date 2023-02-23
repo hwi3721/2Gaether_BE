@@ -1,6 +1,8 @@
 package hh5.twogaether.domain.match.service;
 
-import hh5.twogaether.domain.match.dto.MatchResponseDto;
+import hh5.twogaether.domain.dog.entity.Dog;
+import hh5.twogaether.domain.dog.repository.DogRepository;
+import hh5.twogaether.domain.match.dto.MatchDogResponseDto;
 import hh5.twogaether.domain.match.entity.Match;
 import hh5.twogaether.domain.match.repository.MatchRepository;
 import hh5.twogaether.domain.users.entity.User;
@@ -20,42 +22,43 @@ import static java.util.Collections.shuffle;
 public class MatchService {
 
     private final UserRepository userRepository;
+    private final DogRepository dogRepository;
     private final MatchRepository matchRepository;
 
     @Transactional
-    public MatchResponseDto getMatches(Long id) {
-        List<User> users = userRepository.findAllNotDeletedUser();
+    public MatchDogResponseDto getMatches(Long id) {
+        List<Dog> dogs = dogRepository.findAllNotDeletedDog();
         User me = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
         );
         //기존에 저장된 리스트가 있을 시 기존 정보 사용, 없을 시 새 리스트 저장
         if (matchRepository.findByCreatedBy(id).size() == 0) {
-            saveMatches(id, users, me);
+            saveMatchedDogs(id, dogs, me);
         }
-
         //좋아요, 싫어요 하지 않은 목록 불러와서 셔플
-        List<Match> matches = shuffleMatches(id);
+        List<Match> matches = getAndShuffleMatches(id);
 
         //다 넘겨서 남은 매칭상대가 없는 경우 Matches 다 지우고 다시 갱신
         if (matches.size() == 0) {
             matchRepository.deleteAllByCreatedBy(id);
-            List<User> renewedUsers = userRepository.findAllNotDeletedUser();
+            List<Dog> renewedDogs = dogRepository.findAllNotDeletedDog();
             User renewedMe = userRepository.findById(id).orElseThrow(
                     ()-> new IllegalArgumentException("아무튼 안됨")
             );
-            saveMatches(id, renewedUsers, renewedMe);
-            matches = shuffleMatches(id);
+            saveMatchedDogs(id, renewedDogs, renewedMe);
+            matches = getAndShuffleMatches(id);
         }
+        //matches 에서 1개 뽑아서 보여줌
         int distance = matches.get(0).getDistance();
-        Long opponentId = matches.get(0).getOpponentId();
-        User opponent = userRepository.findById(opponentId).orElseThrow(
+        Long dogId = matches.get(0).getDogId();
+        Dog dog = dogRepository.findById(dogId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 유저입니다.")
         );
-        return new MatchResponseDto(opponent, distance);
+        return new MatchDogResponseDto(dog, distance);
     }
 
     //좋아요, 싫어요 하지 않은 목록 불러와서 셔플
-    private List<Match> shuffleMatches(Long id) {
+    private List<Match> getAndShuffleMatches(Long id) {
         List<Match> matches = matchRepository.findAllNotPassedByCreatedBy(id);
         shuffle(matches);
         log.info("size = {}",matches.size());
@@ -64,18 +67,18 @@ public class MatchService {
 
     // 좋아요, 싫어요
     @Transactional
-    public void passUser(Long opponentId, Long myId) {
-        Match opponent = matchRepository.findByOpponentIdAndCreatedBy(opponentId, myId);
+    public void passUser(Long dogId, Long myId) {
+        Match opponent = matchRepository.findByDogIdAndCreatedBy(dogId, myId);
         opponent.passUser();
     }
 
     //Match 리스트 저장
-    public void saveMatches(Long id, List<User> users, User me) {
-        for (User user : users) {
-            double calculatedDistance = calculateDistance(me.getLatitude(), me.getLongitude(), user.getLatitude(), user.getLongitude());
+    public void saveMatchedDogs(Long id, List<Dog> dogs, User me) {
+        for (Dog dog : dogs) {
+            double calculatedDistance = calculateDistance(me.getLatitude(), me.getLongitude(), dog.getUser().getLatitude(), dog.getUser().getLongitude());
             int roundDistance = roundDistance(calculatedDistance);
-            if ( me.getRanges() >= roundDistance && !user.getId().equals(id) ) {
-                matchRepository.save(new Match(user.getId(),roundDistance));
+            if ( me.getRanges() >= roundDistance && !dog.getCreatedBy().equals(id) ) {
+                matchRepository.save(new Match(dog.getId(),dog.getUser().getId(),roundDistance));
             }
         }
     }
@@ -98,6 +101,4 @@ public class MatchService {
         }
         return (int) Math.round(distance);
     }
-
-
 }
