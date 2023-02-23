@@ -13,8 +13,8 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query("select m from Match m where m.isPassed = false and m.createdBy =:createdBy")
     List<Match> findAllNotPassedByCreatedBy(@Param("createdBy") Long createdBy);
 
-    @Query("select m from Match m where m.opponentId = :opponentId and m.createdBy =:createdBy")
-    Match findByOpponentIdAndCreatedBy(@Param("opponentId") Long opponentId, @Param("createdBy") Long createdBy);
+    @Query("select m from Match m where m.dogId = :dogId and m.createdBy =:createdBy")
+    Match findByDogIdAndCreatedBy(@Param("dogId") Long dogId, @Param("createdBy") Long createdBy);
 
     List<Match> findByCreatedBy(Long createdBy);
 
