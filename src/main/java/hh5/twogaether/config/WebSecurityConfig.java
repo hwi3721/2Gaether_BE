@@ -47,7 +47,8 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // h2-console 사용 및 resources 접근 허용 설정
+
+//     h2-console 사용 및 resources 접근 허용 설정
 //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
 //        return web -> web.ignoring()
@@ -80,7 +81,7 @@ public class WebSecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
-        config.addAllowedOrigin("https://....vercel.app");
+        config.addAllowedOrigin("https://final-hanghae.vercel.app/");
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedMethod("*");
 //        config.setAllowedHeaders(permitHeader);
