@@ -5,8 +5,11 @@ import hh5.twogaether.domain.match.dto.MatchDogResponseDto;
 import hh5.twogaether.domain.match.service.MatchService;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,25 +21,25 @@ public class MatchController {
 
     //매칭 상대 보기
     @GetMapping
-    public MatchDogResponseDto showMatches(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return matchService.getMatches(userDetails.getUser().getId());
+    public ResponseEntity<MatchDogResponseDto> showMatches(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new ResponseEntity<>(matchService.getMatches(userDetails.getUser().getId()), OK);
     }
 
     //좋아요
     @GetMapping("/love/{dogId}")
-    public MatchDogResponseDto loveAndShowNext(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public ResponseEntity<MatchDogResponseDto> loveAndShowNext(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                @PathVariable Long dogId) {
         //좋아요 로직
         loveService.loveUser(dogId, userDetails.getUser().getId());
         matchService.passUser(dogId, userDetails.getUser().getId());
-        return matchService.getMatches(userDetails.getUser().getId());
+        return new ResponseEntity<>(matchService.getMatches(userDetails.getUser().getId()), CREATED);
     }
 
     //싫어요
     @GetMapping("/reject/{dogId}")
-    public MatchDogResponseDto rejectAndShowNext(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public ResponseEntity<MatchDogResponseDto> rejectAndShowNext(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      @PathVariable Long dogId) {
         matchService.passUser(dogId,userDetails.getUser().getId());
-        return matchService.getMatches(userDetails.getUser().getId());
+        return new ResponseEntity<>(matchService.getMatches(userDetails.getUser().getId()), CREATED);
     }
 }
