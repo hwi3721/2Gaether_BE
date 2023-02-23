@@ -52,10 +52,11 @@ public class User extends TimeStamped {
 
     private int ranges = 400;
 
-    public User(String nickname, String email, String provider) {
+    public User(String nickname, String email, String provider, UserRoleEnum role) {
         this.nickname = nickname;
         this.username = email;
         this.password = provider;
+        this.role = role;
     }
 
     public User(SignUpRequestDto signupRequestDto) {
