@@ -17,16 +17,17 @@ import java.util.stream.Collectors;
 public class MyPageResponseDto {
     private String email;
     private String username;
-    private UserRoleEnum role;
     private Double latitude;
     private Double longitude;
+    private String address;
     private List<DogMyPageDto> myDogs = new ArrayList<>();
+
     public MyPageResponseDto(User user) {
         this.email = user.getUsername();
         this.username = user.getNickname();
-        this.role = user.getRole();
         this.latitude = user.getLatitude();
         this.longitude = user.getLongitude();
+        this.address = user.getAddress();
         this.myDogs = user.getDogs().stream()
                 .filter(dog -> !dog.isDelete())
                 .map(dog -> new DogMyPageDto(dog))

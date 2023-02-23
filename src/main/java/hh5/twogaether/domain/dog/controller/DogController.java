@@ -5,6 +5,7 @@ import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.dog.service.DogService;
 import hh5.twogaether.domain.image.service.ImageService;
+import hh5.twogaether.domain.users.dto.ResponseMessageDto;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -24,11 +27,11 @@ public class DogController {
     private final ImageService imageService;
 
     @PostMapping
-    private ResponseEntity<Void> saveDogInfo(@ModelAttribute DogSignupRequestDto dogRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    private ResponseEntity<ResponseMessageDto> saveDogInfo(@ModelAttribute DogSignupRequestDto dogRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Dog savedDog = dogService.createDog(dogRequestDto, userDetails.getUser());
         List<String> imgUrls = imageService.upload(dogRequestDto.getImages(),savedDog);
         log.info("imgUrls = " + imgUrls);
-        return new ResponseEntity(202,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new ResponseMessageDto(CREATED.value(), "강아지 정보 저장 완료"), CREATED);
     }
 
     @GetMapping("/{id}")
@@ -43,9 +46,9 @@ public class DogController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity deleteDogInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    private ResponseEntity<ResponseMessageDto> deleteDogInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
         dogService.deleteMyDog(id,userDetails.getUser());
 
-        return new ResponseEntity(202, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "강아지 정보 삭제 완료"), OK);
     }
 }

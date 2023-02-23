@@ -1,5 +1,7 @@
-package hh5.twogaether.oauth;
+package hh5.twogaether.oauth.controller;
 
+import hh5.twogaether.oauth.service.OauthService;
+import hh5.twogaether.oauth.dto.KakaoLoginRequestDto;
 import hh5.twogaether.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,6 @@ public class OauthController {
 
         // access(& refresh) 토큰 만들기
         response.addHeader(AUTHORIZATION_HEADER, jwtUtil.createToken(email));
-
         return email;
     }
 }
