@@ -39,11 +39,13 @@ public class ChatRoomService {
         );
 
         //상대도 좋아요를 받았을 경우 같은 채팅방이 두 개 만들어지는 경우 제한 거는 로직(40 ~ 49)
+
 //        Optional<User> userInfo1 = userRepository.findById(user.getId()); //상대 아이디
 //        Optional<User> userInfo2 = userRepository.findById(userDetails.getUser().getId()); //내 아이디
 //
         ChatRoom createdChatRoom = new ChatRoom(createRequestDto, userDetails);
 
+        //쿼리문 써서 쿼리 한 번 좋지 않겠냐 조언 -> 기본 기능 구현후 찾아보기
         ChatRoom chatRoomInfo1 = chatRoomRepository.findByUserId1AndUserId2(user.getId(),userDetails.getUser().getId());
         ChatRoom chatRoomInfo2 = chatRoomRepository.findByUserId1AndUserId2(userDetails.getUser().getId(),user.getId());
 

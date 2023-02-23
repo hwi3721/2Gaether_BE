@@ -12,11 +12,9 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor
-public class ChatRoom extends BaseEntity {
+public class ChatRoom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(nullable = false,unique = true)
     private String roomId;
 
