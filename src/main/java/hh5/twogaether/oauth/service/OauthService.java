@@ -2,8 +2,6 @@ package hh5.twogaether.oauth.service;
 
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
-import hh5.twogaether.oauth.KakaoUserInfo;
-import hh5.twogaether.oauth.Oauth2UserInfo;
 import hh5.twogaether.oauth.dto.OauthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
