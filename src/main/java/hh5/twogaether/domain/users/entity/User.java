@@ -1,6 +1,5 @@
 package hh5.twogaether.domain.users.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
@@ -37,7 +36,7 @@ public class User extends TimeStamped {
 
     private Double latitude;   //  위도
     private Double longitude;  //  경도
-    private String detailAddress;
+    private String address;
 
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
@@ -51,7 +50,7 @@ public class User extends TimeStamped {
 
     private boolean isDelete = false;
 
-    private int ranges = 20;
+    private int ranges = 400;
 
     public User(String nickname, String email, String provider) {
         this.nickname = nickname;
@@ -75,7 +74,7 @@ public class User extends TimeStamped {
         this.password = (myPageRequestDto.getPassword() == null) ? this.getPassword() : myPageRequestDto.getPassword();
         this.latitude = (myPageRequestDto.getLatitude() == null) ? this.getLatitude() : myPageRequestDto.getLatitude();
         this.longitude = (myPageRequestDto.getLongitude() == null) ? this.getLongitude() : myPageRequestDto.getLongitude();
-        this.detailAddress = (myPageRequestDto.getAddress() == null) ? this.getDetailAddress() : myPageRequestDto.getAddress();
+        this.address = (myPageRequestDto.getAddress() == null) ? this.getAddress() : myPageRequestDto.getAddress();
         this.ranges = (myPageRequestDto.getRange() == 0) ? this.getRanges() : myPageRequestDto.getRange();
     }
 
