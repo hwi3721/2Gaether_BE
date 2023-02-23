@@ -16,13 +16,16 @@ public class Match extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long dogId;
+
     private Long opponentId;
 
     private int distance;
 
     private boolean isPassed = false;
 
-    public Match(Long opponent, int distance) {
+    public Match(Long dogId, Long opponent, int distance) {
+        this.dogId = dogId;
         this.opponentId = opponent;
         this.distance = distance;
     }
