@@ -1,41 +1,43 @@
 package hh5.twogaether.domain.chat.entity;
 
-import hh5.twogaether.domain.chat.dto.ChatRoomDto;
-import hh5.twogaether.domain.users.entity.User;
+import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
+import hh5.twogaether.security.UserDetailsImpl;
 import hh5.twogaether.util.BaseEntity;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor
 public class ChatRoom extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatRoomId;
+    private Long id;
+    @Column(nullable = false,unique = true)
+    private String roomId;
 
-    //    @Column(nullable = false,unique = true)
-//    private String roomId;
-//    private Long invitedFirst;
-//    private Long invitedSecond;
-    @ManyToOne
-    @JoinColumn(name = "user1")
-    private User user1;
-    @ManyToOne
-    @JoinColumn(name = "user2")
-    private User user2;
+    private Long userId1;
+    private Long userId2;
 
-    public static ChatRoom create() {
-        ChatRoom chatRoom = new ChatRoom();
-        return chatRoom;
+    public ChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails) {
+        this.roomId = UUID.randomUUID().toString();
+        this.userId1 = createRequestDto.getUserId();
+        this.userId2 = userDetails.getUser().getId();
     }
 
-    public void Invited(User user1, User user2) {
-        this.user1 = user1;
-        this.user2 = user2;
-    }
+//    public static ChatRoom create() {
+//        ChatRoom chatRoom = new ChatRoom();
+//        return chatRoom;
+//    }
+
+//
+//    public void invited(User user1, User user2) {
+//        this.user1 = user1;
+//        this.user2 = user2;
+//    }
 
 }
