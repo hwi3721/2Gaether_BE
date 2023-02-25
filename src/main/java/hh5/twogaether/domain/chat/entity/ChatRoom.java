@@ -20,13 +20,15 @@ public class ChatRoom extends BaseEntity{
     private String roomId;
     private Long userId1;
     private Long userId2;
-    private String nickname;
+    private String nickname1;
+    private String nickname2;
 
-    public ChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails, String nickname) {
+    public ChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails, String nickname1, String nickname2) {
         this.roomId = UUID.randomUUID().toString();
         this.userId1 = createRequestDto.getUserId();
         this.userId2 = userDetails.getUser().getId();
-        this.nickname = nickname;
+        this.nickname1 = nickname1;
+        this.nickname2 = nickname2;
     }
 
 //    public static ChatRoom create() {

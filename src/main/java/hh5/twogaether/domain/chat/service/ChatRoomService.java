@@ -43,10 +43,14 @@ public class ChatRoomService {
                 () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
 
-        String nickname = userId1.equals(userId2)
-                ? userDetails.getUser().getNickname() : user.getNickname();
+        String nickname1 = user.getNickname();
+        String nickname2 = userDetails.getUser().getNickname();
 
-        ChatRoom createdChatRoom = new ChatRoom(createRequestDto, userDetails, nickname);
+        //이거 엔터티에서 다시 설정해주고 리스트쪽에서 불러와야할듯
+//        String nickname = userId1.equals(userId2)
+//                ? userDetails.getUser().getNickname() : user.getNickname();
+
+        ChatRoom createdChatRoom = new ChatRoom(createRequestDto, userDetails, nickname1,nickname2);
         ChatRoom chatRoomInfo = chatRoomRepository.findByUserId1AndUserId2(user.getId(),userId2);
 
         //채팅방이 두 개 만들어지는 경우 제한 거는 조건문 + 같은 유저 Id로는 채팅방 안 만들어지게 구현
