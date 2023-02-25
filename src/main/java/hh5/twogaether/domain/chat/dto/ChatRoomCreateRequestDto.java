@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatRoomCreateRequestDto {
     private Long userId;
+    private String opponentNickname;
 
 }
