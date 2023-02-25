@@ -7,7 +7,6 @@ import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,30 +27,27 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestBody ChatRoomCreateRequestDto createRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-         return chatRoomService.createChatRoom(createRequest,userDetails);
+    public void createRoom(@RequestBody ChatRoomCreateRequestDto createRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        chatRoomService.createChatRoom(createRequest, userDetails);
     }
-
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
-    public List<ChatRoom> chatRoomList(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
-        return chatRoomService.findAllRoom(userDetailsImpl);
+    public List<ChatRoom> listRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatRoomService.findAllRoom(userDetails);
     }
+//    @GetMapping("/roomss")
+//    @ResponseBody
+//    public List<ChatRoom> listRoom(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return chatRoomService.roomList(userDetails);
+//    }
 
     @GetMapping("/room/{roomId}")
     @ResponseBody
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatRoomService.findRoomById(roomId);
     }
-
-//    @GetMapping("/rooms/{roomId}")
-//    @ResponseBody
-//    public List<ChatRoom> myChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,@PathVariable String roomId) {
-//        return chatRoomService.(userDetailsImpl,roomId);
-//    }
-
 
 //    // 채팅방 입장 화면
 //    @GetMapping("/room/enter/{roomId}")
