@@ -14,10 +14,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.isDelete = false ")
     List<User> findAllNotDeletedUser();
+    @Query("select u from User u where u.id = :id and u.isDelete = false")
+    User findNotDeletedUserById(@Param("id") Long id);
     Optional<User> findByUsername(String username);
     Optional<User> findByNickname(String username);
     Optional<User> findById(Long id);
-
     List<User> findAll();
 
 }

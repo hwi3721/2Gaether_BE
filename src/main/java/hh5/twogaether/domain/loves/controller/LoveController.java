@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.loves.controller;
 
+import hh5.twogaether.domain.chat.service.ChatRoomService;
 import hh5.twogaether.domain.loves.dto.LoveReceivedDto;
 import hh5.twogaether.domain.loves.dto.LoveSentDto;
 import hh5.twogaether.domain.loves.service.LoveService;
@@ -31,7 +32,7 @@ public class LoveController {
     //받은 좋아요
     @GetMapping("/received")
     public ResponseEntity showReceivedLove(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser().getId());
+        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser());
         return new ResponseEntity(receivedLove, OK);
     }
 
@@ -39,8 +40,13 @@ public class LoveController {
     @PostMapping("/accept/{dogId}")
     public ResponseEntity acceptLove(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      @PathVariable Long dogId) {
-        loveService.loveUser(dogId, userDetails.getUser().getId());
-        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser().getId());
+        int matchCode = loveService.loveUser(dogId, userDetails.getUser());
+
+        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser());
+//        if (matchCode == 1) {
+//            chatRoomService.createChatRoom(dogId);
+//            return new ResponseEntity(receivedLove, CREATED);
+//        }
         return new ResponseEntity(receivedLove, CREATED);
     }
 
@@ -48,8 +54,8 @@ public class LoveController {
     @PostMapping("/reject/{dogId}")
     public ResponseEntity rejectLove(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      @PathVariable Long dogId) {
-        loveService.rejectLove(dogId, userDetails.getUser().getId());
-        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser().getId());
+        loveService.rejectLove(dogId, userDetails.getUser());
+        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser());
         return new ResponseEntity(receivedLove, CREATED);
     }
 }
