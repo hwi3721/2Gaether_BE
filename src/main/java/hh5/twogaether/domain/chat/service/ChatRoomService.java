@@ -55,7 +55,7 @@ public class ChatRoomService {
         } else {    //if(chatRoom != null ||chatRoom2 != null) -> 인텔리j님이 그냥 else 쓰라고 해서 고침
             throw new IllegalArgumentException(ALREADY_EXISTED_ROOM.getDescription());
         }
-        
+
     }
 
     //밑의 두 로직 하나로 합칠 것 -> 유저의 id와 대조해보고 보이게 할 것이므로 리스트는 하나만 있으면 된다.
