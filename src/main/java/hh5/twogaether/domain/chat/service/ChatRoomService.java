@@ -1,12 +1,9 @@
 package hh5.twogaether.domain.chat.service;
 
 import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
-import hh5.twogaether.domain.chat.dto.ChatRoomResponseDto;
-import hh5.twogaether.domain.chat.entity.ChatMessage;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
-import hh5.twogaether.domain.loves.repository.LoveRepository;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import hh5.twogaether.security.UserDetailsImpl;
@@ -25,7 +22,6 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
-    private final LoveRepository loveRepository;
     private final UserRepository userRepository;
     private Map<String, ChatRoom> chatRoomMap;
 
@@ -35,7 +31,7 @@ public class ChatRoomService {
     }
 
     //UserId를 대조해보고 서로 좋아요가 됐는지 확인하고, 맞을 경우 방 생성하는 로직을 .create()위에 만들고 {}로 묶어주면 될듯
-    public ChatRoom createChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails) {
+    public void createChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails) {
         Long userId1 = createRequestDto.getUserId();
         Long userId2 = userDetails.getUser().getId();
 
@@ -59,8 +55,7 @@ public class ChatRoomService {
         } else {    //if(chatRoom != null ||chatRoom2 != null) -> 인텔리j님이 그냥 else 쓰라고 해서 고침
             throw new IllegalArgumentException(ALREADY_EXISTED_ROOM.getDescription());
         }
-
-      return createdChatRoom;
+        
     }
 
     //밑의 두 로직 하나로 합칠 것 -> 유저의 id와 대조해보고 보이게 할 것이므로 리스트는 하나만 있으면 된다.
@@ -81,21 +76,6 @@ public class ChatRoomService {
 
         return chatRooms;
     }
-
-//    public List<ChatRoom> roomList(UserDetailsImpl userDetails) {
-//        ChatRoom chatRoom=new ChatRoom();
-//        List<ChatRoom> myChatRooms = chatRoomRepository.findByUserId1OrUserId2OrderByModifiedDateDesc(chatRoom.getUserId1(), chatRoom.getUserId2());
-//
-//        List<ChatRoom> chatRooms;
-//
-//        if (myChatRooms.isEmpty()) {
-//            throw new IllegalArgumentException(NOT_EXISTED_ID.getDescription());
-//        } else {
-//            chatRooms = new ArrayList<>(myChatRooms);
-//        }
-//
-//        return chatRooms;
-//    }
 
     public ChatRoom findRoomById(String id) {
         return chatRoomMap.get(id);
