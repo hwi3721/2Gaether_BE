@@ -2,18 +2,14 @@ package hh5.twogaether.domain.chat.controller;
 
 import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
 import hh5.twogaether.domain.chat.dto.ChatRoomListResponseDto;
-import hh5.twogaether.domain.chat.dto.ChatRoomInformDto;
 import hh5.twogaether.domain.chat.dto.InformAndMessageListDto;
-import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.service.ChatRoomService;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -39,35 +35,11 @@ public class ChatRoomController {
     public List<ChatRoomListResponseDto> listRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return chatRoomService.findAllRoom(userDetails);
     }
+
     @GetMapping("/rooms/{roomId}")
     @ResponseBody
     public InformAndMessageListDto lookMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId) {
-        return chatRoomService.getRoomById(userDetails,roomId);
+        return chatRoomService.getRoomById(userDetails, roomId);
     }
 
-//    @GetMapping("/rooms/{roomId}")
-//    public ResponseListDto chatRoom(@PathVariable String roomId, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
-//        ResponseListDto responseListDto = chatRoomService.readChatRoom(roomId, userDetailsImpl);
-//        return responseListDto;
-//    }
-
-//    @GetMapping("/rooms/{roomId}")
-//    public ChatRoom getChatRooms(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable String roomId) {
-//        return chatRoomService.findRoomById(userDetails,roomId);
-//    }
-
 }
-
-//    @GetMapping("/rooms/{roomId}")
-//    @ResponseBody
-//    public ChatRoom roomInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return chatRoomService.findRoomById(userDetails);
-//    }
-
-////    // 채팅방 입장 화면
-//    @GetMapping("/room/enter/{roomId}")
-//    public String roomDetail(Model model, @PathVariable String roomId) {
-//        model.addAttribute("roomId", roomId);
-//        return "/chat/roomdetail";
-//    }
-

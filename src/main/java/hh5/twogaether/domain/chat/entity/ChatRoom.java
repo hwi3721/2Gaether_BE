@@ -22,6 +22,8 @@ public class ChatRoom extends BaseEntity{
     private Long userId2;
     private String nickname1;
     private String nickname2;
+    private String lastMessage = "";
+
 
     public ChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails, String nickname1, String nickname2) {
         this.roomId = UUID.randomUUID().toString();
@@ -29,6 +31,10 @@ public class ChatRoom extends BaseEntity{
         this.userId2 = userDetails.getUser().getId();
         this.nickname1 = nickname1;
         this.nickname2 = nickname2;
+    }
+
+    public void ChatRoomLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
 //    public static ChatRoom create() {

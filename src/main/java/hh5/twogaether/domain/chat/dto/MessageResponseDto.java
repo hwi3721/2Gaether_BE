@@ -10,14 +10,11 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class MessageResponseDto {
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+
     private String userNickname;
     private String message;
 
-    public MessageResponseDto(ChatRoom chatRoom, ChatMessage chatMessage) {
-        this.createdAt = chatRoom.getCreatedAt();
-        this.modifiedAt = chatRoom.getModifiedAt();
+    public MessageResponseDto(ChatMessage chatMessage) {
         this.userNickname = chatMessage.getSender().getNickname();
         this.message = chatMessage.getMessage();
     }
