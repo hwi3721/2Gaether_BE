@@ -85,9 +85,6 @@ public class ChatRoomService {
 
         //log.info(roomId);
         List<ChatMessage> chatMessages = chatMessageRepository.findAllByRoomId(roomId);
-        if(chatMessages.isEmpty()){
-            throw new IllegalArgumentException(NOT_EXISTED_MESSAGE.getDescription());
-        }
 
         List<MessageResponseDto> messagesResponseDtos = new ArrayList<>();
 
