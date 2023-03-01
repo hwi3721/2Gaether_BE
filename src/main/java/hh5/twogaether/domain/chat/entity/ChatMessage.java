@@ -21,10 +21,15 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "room_id")
     private String roomId;
     @ManyToOne(fetch = FetchType.LAZY)
     private User sender;
     private String message;
+
+    public ChatMessage(User sender, String message, String roomId) {
+        this.sender = sender;
+        this.message = message;
+        this.roomId = roomId;
+    }
 
 }

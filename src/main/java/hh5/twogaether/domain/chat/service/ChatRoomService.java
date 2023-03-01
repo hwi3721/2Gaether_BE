@@ -60,6 +60,10 @@ public class ChatRoomService {
             Long otherUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId2() : chatRoom.getUserId1();
             User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
             chatRoomListResponseDto.setNickname(otherUser.getNickname());
+//            ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomOrderByCreatedAtDesc(chatRoom.getLastMessage());
+//            if (lastMessage != null) {
+//                chatRoomListResponseDto.setMessage(lastMessage.getMessage());
+//            }
 
             chatRooms.add(chatRoomListResponseDto);
         }
@@ -88,7 +92,7 @@ public class ChatRoomService {
         List<MessageResponseDto> messagesResponseDtos = new ArrayList<>();
 
         for (ChatMessage chatMessage : chatMessages) {
-            MessageResponseDto messageResponseDto = new MessageResponseDto(chatRoom, chatMessage); // + Sender
+            MessageResponseDto messageResponseDto = new MessageResponseDto(chatMessage); // + Sender
             messagesResponseDtos.add(messageResponseDto);
         }
 

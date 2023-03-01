@@ -1,21 +1,24 @@
 package hh5.twogaether.domain.chat.dto;
 
 import hh5.twogaether.domain.chat.entity.ChatMessage;
-import hh5.twogaether.domain.chat.entity.ChatRoom;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor
-public class MessageResponseDto {
-
+public class ChatRoomRealResponseDto {
+    private String chatRoomId;
+    private Long messageId;
+    private String userEmail;
     private String userNickname;
     private String message;
 
-    public MessageResponseDto(ChatMessage chatMessage) {
+    public ChatRoomRealResponseDto(ChatMessage chatMessage) {
+        this.chatRoomId = chatMessage.getRoomId();
+        this.messageId = chatMessage.getId();
+        this.userEmail = chatMessage.getSender().getUsername();
         this.userNickname = chatMessage.getSender().getNickname();
         this.message = chatMessage.getMessage();
     }
 }
+
