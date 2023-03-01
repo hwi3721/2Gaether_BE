@@ -1,10 +1,9 @@
 package hh5.twogaether.domain.chat.controller;
 
-import hh5.twogaether.domain.chat.entity.ChatMessage;
+import hh5.twogaether.domain.chat.dto.ChatMessageDto;
 import hh5.twogaether.domain.chat.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,8 +17,7 @@ public class ChatController {
 
     @MessageMapping("/chat/message")
     @SendTo("/topic/public")
-    public void message(@Payload ChatMessage message) {
-        messageService.createMessage(message);
-
+    public void message(ChatMessageDto chatMessageDto) {
+        messageService.createMessage(chatMessageDto);
     }
 }
