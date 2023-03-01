@@ -4,7 +4,6 @@ import hh5.twogaether.domain.chat.entity.ChatMessage;
 import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import hh5.twogaether.domain.users.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

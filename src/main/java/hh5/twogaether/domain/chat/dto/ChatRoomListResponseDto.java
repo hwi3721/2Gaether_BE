@@ -1,15 +1,11 @@
 package hh5.twogaether.domain.chat.dto;
 
-import hh5.twogaether.domain.chat.entity.ChatRoom;
-import hh5.twogaether.domain.users.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-public class ChatRoomResponseDto {
+public class ChatRoomListResponseDto {
     private String roomId;
     private String nickname;
     private String message;

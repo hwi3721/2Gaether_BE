@@ -1,16 +1,16 @@
 package hh5.twogaether.domain.chat.controller;
 
 import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
-import hh5.twogaether.domain.chat.dto.ChatRoomResponseDto;
+import hh5.twogaether.domain.chat.dto.ChatRoomListResponseDto;
+import hh5.twogaether.domain.chat.dto.ChatRoomInformDto;
+import hh5.twogaether.domain.chat.dto.InformAndMessageListDto;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.service.ChatRoomService;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,6 @@ import java.util.Map;
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
-    private final Map<String, ChatRoom> chatRooms = new HashMap<>();
 
     // 채팅 리스트 화면
     @GetMapping("/room")
@@ -37,9 +36,20 @@ public class ChatRoomController {
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
-    public List<ChatRoomResponseDto> listRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<ChatRoomListResponseDto> listRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return chatRoomService.findAllRoom(userDetails);
     }
+    @GetMapping("/rooms/{roomId}")
+    @ResponseBody
+    public InformAndMessageListDto lookMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId) {
+        return chatRoomService.getRoomById(userDetails,roomId);
+    }
+
+//    @GetMapping("/rooms/{roomId}")
+//    public ResponseListDto chatRoom(@PathVariable String roomId, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+//        ResponseListDto responseListDto = chatRoomService.readChatRoom(roomId, userDetailsImpl);
+//        return responseListDto;
+//    }
 
 //    @GetMapping("/rooms/{roomId}")
 //    public ChatRoom getChatRooms(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable String roomId) {

@@ -1,6 +1,5 @@
 package hh5.twogaether.domain.chat.entity;
 
-import hh5.twogaether.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,19 +21,10 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "room_id")
+    private String roomId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private ChatRoom roomId;
-    //    private String sender;
-    @ManyToOne
     private User sender;
     private String message;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//    @ManyToOne
-//    private User user;
-//    @ManyToOne
-//    private User user2;
 }
