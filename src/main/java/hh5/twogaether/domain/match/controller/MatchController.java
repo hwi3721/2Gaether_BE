@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.match.controller;
 
+import hh5.twogaether.domain.chat.service.ChatRoomService;
 import hh5.twogaether.domain.loves.service.LoveService;
 import hh5.twogaether.domain.match.dto.MatchDogResponseDto;
 import hh5.twogaether.domain.match.service.MatchService;
@@ -26,17 +27,17 @@ public class MatchController {
     }
 
     //좋아요
-    @GetMapping("/love/{dogId}")
+    @PostMapping("/love/{dogId}")
     public ResponseEntity<MatchDogResponseDto> loveAndShowNext(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                @PathVariable Long dogId) {
         //좋아요 로직
-        loveService.loveUser(dogId, userDetails.getUser().getId());
+        loveService.loveUser(dogId, userDetails.getUser());
         matchService.passUser(dogId, userDetails.getUser().getId());
         return new ResponseEntity<>(matchService.getMatches(userDetails.getUser().getId()), CREATED);
     }
 
     //싫어요
-    @GetMapping("/reject/{dogId}")
+    @PostMapping("/reject/{dogId}")
     public ResponseEntity<MatchDogResponseDto> rejectAndShowNext(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      @PathVariable Long dogId) {
         matchService.passUser(dogId,userDetails.getUser().getId());

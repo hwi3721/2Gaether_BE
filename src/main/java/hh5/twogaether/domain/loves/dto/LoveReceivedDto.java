@@ -15,10 +15,10 @@ public class LoveReceivedDto {
 
     private String imageUrl;
 
-    public LoveReceivedDto(Love love, Dog dog) {
+    public LoveReceivedDto(Love love) {
         this.userId = love.getCreatedBy();
-        this.dogName = dog.getDogName();
-        this.dogSex = dog.getDogSex();
-        this.imageUrl = dog.getDogImages().get(0).getImgUrl();
+        this.dogName = love.getMe().getDogs().get(0).getDogName();
+        this.dogSex = love.getMe().getDogs().get(0).getDogSex();
+        this.imageUrl = love.getMe().getDogs().get(0).getDogImages().get(0).getImgUrl();
     }
 }

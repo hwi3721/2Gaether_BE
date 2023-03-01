@@ -6,6 +6,8 @@ import hh5.twogaether.domain.loves.dto.LoveReceivedDto;
 import hh5.twogaether.domain.loves.dto.LoveSentDto;
 import hh5.twogaether.domain.loves.entity.Love;
 import hh5.twogaether.domain.loves.repository.LoveRepository;
+import hh5.twogaether.domain.users.entity.User;
+import hh5.twogaether.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,56 +21,54 @@ public class LoveService {
 
     private final LoveRepository loveRepository;
     private final DogRepository dogRepository;
+    private final UserRepository userRepository;
 
     //좋아요, 수락 공통 로직
     @Transactional
-    public void loveUser(Long dogId, Long myId) {
+    public int loveUser(Long dogId, User me) {
         Dog foundDog = dogRepository.findById(dogId).orElseThrow(
                 ()-> new IllegalArgumentException("그런 개는 없습니다.")
         );
-        Long opponentId = foundDog.getCreatedBy();
-        Love acceptCase = loveRepository.findByOpponentIdAndCreatedBy(myId, opponentId);
-        Love sendCase = loveRepository.findByOpponentIdAndCreatedBy(opponentId, myId);
+        User opponent = userRepository.findNotDeletedUserById(foundDog.getCreatedBy());
+        Love sendCase = loveRepository.findByMeAndOpponentId(me, opponent);
+        Love acceptCase = loveRepository.findByMeAndOpponentId(opponent, me);
         if (sendCase == null && acceptCase == null) {
-            loveRepository.save(new Love(opponentId));
+            loveRepository.save(new Love(me, opponent));
         }
-        if (acceptCase != null) {
+        if (acceptCase != null && !acceptCase.getCreatedBy().equals(me.getId())) {
             acceptCase.accept();
+            return acceptCase.getMatchCode();
         }
-
-//        if (acceptCase.getMatchCode() == 1) {
-//            Long userId1 = acceptCase.getCreatedBy();
-//            Long userId2 = acceptCase.getOpponentId();
-//        }
-
+        return 1;
     }
 
     // 거절
     @Transactional
-    public void rejectLove(Long dogId, Long myId) {
+    public void rejectLove(Long dogId, User me) {
         Dog foundDog = dogRepository.findById(dogId).orElseThrow(
                 ()-> new IllegalArgumentException("그런 개는 없습니다.")
         );
         Long opponentId = foundDog.getCreatedBy();
-        Love foundLove = loveRepository.findByOpponentIdAndCreatedBy(myId, opponentId);
-        foundLove.reject();
+        User opponent = userRepository.findNotDeletedUserById(opponentId);
+        Love foundLove = loveRepository.findByMeAndOpponentId(me, opponent);
+        if (foundLove.getMatchCode() != 1) {
+            foundLove.reject();
+        }
     }
 
     //보낸 좋아요 조회
     public List<LoveSentDto> getSentLove(Long id) {
-        Dog foundDog = dogRepository.findByCreatedBy(id).get(0);
-        List<LoveSentDto> loving = loveRepository.findAllNotAcceptedByCreatedBy(id).stream()
-                .map(love -> new LoveSentDto(love, foundDog))
+        List<LoveSentDto> sent = loveRepository.findAllNotAcceptedByCreatedBy(id).stream()
+                .map(love -> new LoveSentDto(love))
                 .collect(Collectors.toList());
-        return loving;
+        return sent;
     }
 
     //받은 좋아요 조회
-    public List<LoveReceivedDto> getReceivedLove(Long id) {
-        Dog foundDog = dogRepository.findByCreatedBy(id).get(0);
-        List<LoveReceivedDto> loved = loveRepository.findAllNotAcceptedByOpponentId(id).stream()
-                .map(love -> new LoveReceivedDto(love, foundDog))
+    public List<LoveReceivedDto> getReceivedLove(User me) {
+        List<LoveReceivedDto> received = loveRepository.findAllNotAcceptedByOpponentId(me).stream()
+                .map(love -> new LoveReceivedDto(love))
                 .collect(Collectors.toList());
-        return loved;
+        return received;
     }
 }

@@ -10,14 +10,12 @@ import java.util.stream.Collectors;
 
 @Getter
 public class MatchResponseDto {
-    private Long userId;
     private String email;
     private String username;
     private int distance;
     private List<DogResponseDto> myDogs = new ArrayList<>();
 
     public MatchResponseDto(User user, int distance) {
-        this.userId = user.getId();
         this.email = user.getUsername();
         this.username = user.getNickname();
         this.distance = distance;
