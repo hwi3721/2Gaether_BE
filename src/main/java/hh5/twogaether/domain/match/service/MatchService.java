@@ -48,6 +48,12 @@ public class MatchService {
             saveMatchedDogs(id, renewedDogs, renewedMe);
             matches = getAndShuffleMatches(id);
         }
+
+        //예외처리
+        if (matches.size() == 0) {
+            throw new IllegalArgumentException("매칭 상대가 없습니다");
+        }
+
         //matches 에서 1개 뽑아서 보여줌
         int distance = matches.get(0).getDistance();
         Long dogId = matches.get(0).getDogId();
