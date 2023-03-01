@@ -12,11 +12,11 @@ import java.time.LocalDate;
 public class ChatRoomResponseDto {
     private String roomId;
     private String nickname;
-//    private String message;
+    private String message;
 
 
-    public ChatRoomResponseDto(ChatRoom chatRoom, String nickname){//, String message) {
-        this.roomId = chatRoom.getRoomId();
-        this.nickname = nickname;
-        }
+//    public ChatRoomResponseDto(ChatRoom chatRoom, String nickname){//, String message) {
+//        this.roomId = chatRoom.getRoomId();
+//        this.nickname = nickname;
+//        }
     }

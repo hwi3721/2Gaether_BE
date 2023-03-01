@@ -1,6 +1,7 @@
 package hh5.twogaether.domain.chat.service;
 
 import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
+import hh5.twogaether.domain.chat.dto.ChatRoomResponseDto;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
@@ -59,27 +60,45 @@ public class ChatRoomService {
     }
 
     //밑의 두 로직 하나로 합칠 것 -> 유저의 id와 대조해보고 보이게 할 것이므로 리스트는 하나만 있으면 된다.
-    public List<ChatRoom> findAllRoom(UserDetailsImpl userDetailsImpl) {
+    public List<ChatRoomResponseDto> findAllRoom(UserDetailsImpl userDetails) {
 
-        List<ChatRoom> myChatRoom = chatRoomRepository.findByUserId1(userDetailsImpl.getUser().getId());
-        List<ChatRoom> myChatRoom2 = chatRoomRepository.findByUserId2(userDetailsImpl.getUser().getId());
+        Long useId = userDetails.getUser().getId();
+        List<ChatRoom> myChatRoom = chatRoomRepository.findByUserId1OrUserId2(useId, useId);
 
-        List<ChatRoom> chatRooms = new ArrayList<>();
+        List<ChatRoomResponseDto> chatRooms = new ArrayList<>();
+        for (ChatRoom chatRoom : myChatRoom) {
+            ChatRoomResponseDto chatRoomResponseDto = new ChatRoomResponseDto();
+            chatRoomResponseDto.setRoomId(chatRoom.getRoomId());
+            Long otherUserId = chatRoom.getUserId1().equals(useId) ? chatRoom.getUserId2() : chatRoom.getUserId1();
+            User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
+            chatRoomResponseDto.setNickname(otherUser.getNickname());
 
-            if (myChatRoom.isEmpty() && myChatRoom2.isEmpty()) {
-                throw new IllegalArgumentException(NOT_EXISTED_ID.getDescription());
-            } else if (!myChatRoom.isEmpty()) {
-                chatRooms.addAll(myChatRoom);
-            } else {
-                chatRooms.addAll(myChatRoom2);
-            }
-
+            chatRooms.add(chatRoomResponseDto);
+        }
         return chatRooms;
     }
 
-    public ChatRoom findRoomById(String id) {
-        return chatRoomMap.get(id);
-    }
+//    public ChatRoom findRoomById(String roomId, UserDetailsImpl userDetails) {
+//        ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
+//        Long useId = userDetails.getUser().getId();
+//        List<ChatRoom> myChatRoom = chatRoomRepository.findByUserId1OrUserId2(useId, useId);
+//
+//        List<ChatRoomResponseDto> chatRooms = new ArrayList<>();
+//        for (ChatRoom chatRoom : myChatRoom) {
+//            ChatRoomResponseDto chatRoomResponseDto = new ChatRoomResponseDto();
+//            chatRoomResponseDto.setRoomId(chatRoom.getRoomId());
+//            Long otherUserId = chatRoom.getUserId1().equals(useId) ? chatRoom.getUserId2() : chatRoom.getUserId1();
+//            User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
+//            chatRoomResponseDto.setNickname(otherUser.getNickname());
+//
+//            chatRooms.add(chatRoomResponseDto);
+//        }
+//        return chatRooms;
+//    }
+
+
+//        return chatRoomMap.get(id);
+//    }
 
 //    public void deleteChatRoom(String id) {
 //        chatRoomMap.remove(id);
