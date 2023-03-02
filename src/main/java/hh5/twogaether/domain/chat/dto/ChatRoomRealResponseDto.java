@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ChatRoomRealResponseDto {
-    private String chatRoomId;
+    private String roomId;
     private Long messageId;
     private String userEmail;
     private String userNickname;
     private String message;
 
     public ChatRoomRealResponseDto(ChatMessage chatMessage) {
-        this.chatRoomId = chatMessage.getRoomId();
+        this.roomId = chatMessage.getRoomId();
         this.messageId = chatMessage.getId();
         this.userEmail = chatMessage.getSender().getUsername();
         this.userNickname = chatMessage.getSender().getNickname();
