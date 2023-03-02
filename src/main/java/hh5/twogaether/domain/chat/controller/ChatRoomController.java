@@ -36,6 +36,7 @@ public class ChatRoomController {
         return chatRoomService.findAllRoom(userDetails);
     }
 
+    //톡방
     @GetMapping("/rooms/{roomId}")
     @ResponseBody
     public InformAndMessageListDto lookMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId) {
