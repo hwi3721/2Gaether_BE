@@ -79,6 +79,7 @@ public class ChatRoomService {
         Long myUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId1() : chatRoom.getUserId2();
         User myInform = userRepository.findById(myUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
         roomInformDto.setNickname(myInform.getNickname());
+        roomInformDto.setEmail(myInform.getUsername());
         Long otherUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId2() : chatRoom.getUserId1();
         User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
         roomInformDto.setOpponentNickname(otherUser.getNickname());
