@@ -8,5 +8,6 @@ import lombok.Setter;
 public class ChatRoomInformDto {
     private String roomId;
     private String nickname;
+    private String email;
     private String opponentNickname;
 }
