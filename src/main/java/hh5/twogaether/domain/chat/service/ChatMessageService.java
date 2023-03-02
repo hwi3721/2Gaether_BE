@@ -33,7 +33,7 @@ public class ChatMessageService {
 
         chatRoom.ChatRoomLastMessage(chatMessageDto.getMessage());
         chatRoomRepository.save(chatRoom);
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessageDto.getRoomId(), chatRoomRealResponseDto);
+        messagingTemplate.convertAndSend("/sub/chat/rooms/" + chatMessageDto.getRoomId(), chatRoomRealResponseDto);
     }
 
 }
