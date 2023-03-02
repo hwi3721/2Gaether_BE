@@ -68,6 +68,8 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(permitUrl).permitAll()
                 .antMatchers(test_url).permitAll()
+                .antMatchers("/ws-stomp").permitAll()
+                .antMatchers("/ws-stomp/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
