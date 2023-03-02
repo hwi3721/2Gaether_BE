@@ -26,10 +26,11 @@ public class ChatMessage {
     private User sender;
     private String message;
 
-    public ChatMessage(User sender, String message, String roomId) {
+    public ChatMessage(String roomId, User sender, String message) {
+        this.roomId = roomId;
         this.sender = sender;
         this.message = message;
-        this.roomId = roomId;
+
     }
 
 }
