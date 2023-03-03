@@ -27,6 +27,8 @@ public class MatchService {
 
     @Transactional
     public MatchDogResponseDto getMatches(Long id) {
+        //내 개가 있을때 로직 시작
+        isExistMyDog(id);
         List<Dog> dogs = dogRepository.findAllNotDeletedDog();
         User me = userRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아무튼 안됨")
@@ -61,6 +63,13 @@ public class MatchService {
                 () -> new IllegalArgumentException("존재하지 않는 유저입니다.")
         );
         return new MatchDogResponseDto(dog, distance);
+    }
+
+    private void isExistMyDog(Long id) {
+        List<Dog> myDogs = dogRepository.findAllNotDeletedDogByCreatedBy(id);
+        if (myDogs.isEmpty()) {
+            throw new IllegalArgumentException("강아지를 추가 후 이용해주세요");
+        }
     }
 
     //좋아요, 싫어요 하지 않은 목록 불러와서 셔플
