@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 import static hh5.twogaether.exception.message.ExceptionMessage.NOT_EXISTED_ID;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class DogService {
@@ -21,18 +23,16 @@ public class DogService {
 
     // 회원 가입시 입력해야하는 강아지 정보
     @Transactional
-    public Dog createDog(DogSignupRequestDto dogSignupRequestDto, User user) {
+    public Dog saveMyDog(DogSignupRequestDto dogSignupRequestDto, User user) {
         Dog dog = new Dog(dogSignupRequestDto, user);
-
         dogRepository.save(dog);
         return dog;
     }
 
-    public DogResponseDto showYourDog(Long id, User user){
+    public DogResponseDto showMyDog(Long id, User user){
         Dog dog = dogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-
         userRepository.findById(user.getId()).orElseThrow(
                 ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
@@ -49,7 +49,6 @@ public class DogService {
         Dog dog = dogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-
         userRepository.findById(user.getId()).orElseThrow(
                 ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
@@ -61,17 +60,19 @@ public class DogService {
 
     @Transactional
     public void deleteMyDog(Long id,User user) {
-
         Dog dog = dogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
         userRepository.findById(user.getId()).orElseThrow(
                 ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
         );
-
         if(user.getId().equals(dog.getCreatedBy())){
             dog.deleteDog();
         }
     }
 
+    public boolean isExistMyDog(Long id) {
+        List<Dog> myDogs = dogRepository.findAllNotDeletedDogByCreatedBy(id);
+        return !myDogs.isEmpty();
+    }
 }
