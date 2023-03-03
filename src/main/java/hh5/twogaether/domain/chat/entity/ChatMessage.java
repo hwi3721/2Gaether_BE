@@ -24,13 +24,13 @@ public class ChatMessage {
     private String roomId;
     @ManyToOne(fetch = FetchType.LAZY)
     private User sender;
+//    private String sender;
     private String message;
 
-    public ChatMessage(String roomId, User sender, String message) {
+    public ChatMessage(String roomId, User sender, String message) {// String sender
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
-
     }
 
 }
