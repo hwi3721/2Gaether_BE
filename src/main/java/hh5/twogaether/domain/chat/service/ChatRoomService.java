@@ -40,7 +40,7 @@ public class ChatRoomService {
         ChatRoom createdChatRoom = new ChatRoom(createRequestDto, userDetails, nickname1,nickname2);
         ChatRoom chatRoomInfo = chatRoomRepository.findByUserId1AndUserId2(user.getId(),userId2);
 
-        if (chatRoomInfo==null && userId1!=userId2) {
+        if (chatRoomInfo==null && !userId1.equals(userId2)) {
             chatRoomRepository.save(createdChatRoom);
         } else {
             throw new IllegalArgumentException(ALREADY_EXISTED_ROOM.getDescription());
