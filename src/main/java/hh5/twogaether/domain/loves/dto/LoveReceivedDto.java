@@ -9,6 +9,8 @@ public class LoveReceivedDto {
 
     private Long userId;
 
+    private Long dogId;
+
     private String dogName;
 
     private String dogSex;
@@ -17,6 +19,7 @@ public class LoveReceivedDto {
 
     public LoveReceivedDto(Love love) {
         this.userId = love.getCreatedBy();
+        this.dogId = love.getMe().getDogs().get(0).getId();
         this.dogName = love.getMe().getDogs().get(0).getDogName();
         this.dogSex = love.getMe().getDogs().get(0).getDogSex();
         this.imageUrl = love.getMe().getDogs().get(0).getDogImages().get(0).getImgUrl();
