@@ -2,6 +2,7 @@ package hh5.twogaether.domain.chat.dto;
 
 import hh5.twogaether.domain.chat.entity.ChatMessage;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
+import hh5.twogaether.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ public class MessageResponseDto {
 
     public MessageResponseDto(ChatMessage chatMessage) {
         this.userNickname = chatMessage.getSender().getNickname();
+//                chatMessage.getSender().getNickname();
         this.message = chatMessage.getMessage();
     }
 }
