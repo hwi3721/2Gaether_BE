@@ -20,11 +20,9 @@ import static hh5.twogaether.exception.message.ExceptionMessage.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatRoomService {
-
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
-
 
     public void createChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails) {
         Long userId1 = createRequestDto.getUserId();
@@ -64,7 +62,6 @@ public class ChatRoomService {
 //            if (lastMessage != null) {
 //                chatRoomListResponseDto.setMessage(lastMessage.getMessage());
 //            }
-
             chatRooms.add(chatRoomListResponseDto);
         }
         return chatRooms;

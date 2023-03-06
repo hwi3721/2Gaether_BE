@@ -18,13 +18,11 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
 
-    // 채팅 리스트 화면
     @GetMapping("/room")
     public String rooms() {
         return "/chat/room";
     }
 
-    // 채팅방 생성
     @PostMapping("/rooms")
     public void createRoom(@RequestBody ChatRoomCreateRequestDto createRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         chatRoomService.createChatRoom(createRequest, userDetails);
