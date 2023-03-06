@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.dog.service;
 
+import hh5.twogaether.domain.dog.dto.DogPatchRequestDto;
 import hh5.twogaether.domain.dog.dto.DogResponseDto;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.repository.DogRepository;
@@ -29,32 +30,25 @@ public class DogService {
         return dog;
     }
 
-    public DogResponseDto showMyDog(Long id, User user){
+    public DogResponseDto showDog(Long id){
         Dog dog = dogRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
-        );
-        userRepository.findById(user.getId()).orElseThrow(
-                ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
+                () -> new IllegalArgumentException("그런 개는 없습니다.")
         );
         if (dog.isDelete()) throw new IllegalArgumentException("삭제된 강아지");
-        if(!(user.getId().equals(dog.getCreatedBy()))){
-            throw new IllegalArgumentException(NOT_EXISTED_ID.getDescription());
-        }
         return new DogResponseDto(dog);
     }
 
     //강아지 정보 수정
     @Transactional
-    public void patchMyDog(Long id, User user, DogSignupRequestDto dogSignupRequestDto) {
+    public void patchMyDog(Long id, User user, DogPatchRequestDto dogPatchRequestDto) {
         Dog dog = dogRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
-        );
-        userRepository.findById(user.getId()).orElseThrow(
-                ()-> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
+                () -> new IllegalArgumentException("그런 개는 없습니다.")
         );
         if (dog.isDelete()) throw new IllegalArgumentException("삭제된 강아지");
-        if(user.getId().equals(dog.getCreatedBy())) {
-            dog.patchDog(dogSignupRequestDto);
+        if (user.getId().equals(dog.getCreatedBy())) {
+            dog.patchDog(dogPatchRequestDto);
+        } else {
+            throw new IllegalArgumentException("권한이 없습니다");
         }
     }
 
