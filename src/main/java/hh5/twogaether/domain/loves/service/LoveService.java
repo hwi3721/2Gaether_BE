@@ -25,7 +25,7 @@ public class LoveService {
 
     //좋아요, 수락 공통 로직
     @Transactional
-    public int loveUser(Long dogId, User me) {
+    public Love loveUser(Long dogId, User me) {
         Dog foundDog = dogRepository.findById(dogId).orElseThrow(
                 ()-> new IllegalArgumentException("그런 개는 없습니다.")
         );
@@ -37,9 +37,9 @@ public class LoveService {
         }
         if (acceptCase != null && !acceptCase.getCreatedBy().equals(me.getId())) {
             acceptCase.accept();
-            return acceptCase.getMatchCode();
+            return acceptCase;
         }
-        return 1;
+        return sendCase;
     }
 
     // 거절
