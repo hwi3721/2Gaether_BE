@@ -40,7 +40,6 @@ public class ChatRoomService {
 //        Long userId1 = createRequestDto.getUserId();
 //        Long userId2 = userDetails.getUser().getId();
 //
-
 //        String nickname1 = user.getNickname();
 //        String nickname2 = userDetails.getUser().getNickname();
 //        ChatRoom createdChatRoom = new ChatRoom(createRequestDto, userDetails, nickname1,nickname2);//,dog.getDogImages().get(0));
@@ -93,11 +92,8 @@ public class ChatRoomService {
             Long otherUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId2() : chatRoom.getUserId1();
             User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
             chatRoomListResponseDto.setNickname(otherUser.getNickname());
-
-//            ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomOrderByCreatedAtDesc(chatRoom.getLastMessage());
-//            if (lastMessage != null) {
-//                chatRoomListResponseDto.setMessage(lastMessage.getMessage());
-//            }
+            chatRoomListResponseDto.setDogImageUrl(otherUser.getDogs().get(0).getDogImages().get(0).getImgUrl());
+            
             chatRooms.add(chatRoomListResponseDto);
         }
         return chatRooms;

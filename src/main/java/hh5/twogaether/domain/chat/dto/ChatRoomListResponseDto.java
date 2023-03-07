@@ -9,8 +9,7 @@ import lombok.Setter;
 public class ChatRoomListResponseDto {
     private String roomId;
     private String nickname;
-    //    private String message;
-//    private Long dogId;
+    private String message;
     private String dogImageUrl;
 
 }
