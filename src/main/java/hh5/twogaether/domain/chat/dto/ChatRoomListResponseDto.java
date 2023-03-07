@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.chat.dto;
 
+import hh5.twogaether.domain.chat.entity.ChatRoom;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +9,8 @@ import lombok.Setter;
 public class ChatRoomListResponseDto {
     private String roomId;
     private String nickname;
-    private String message;
+    //    private String message;
+//    private Long dogId;
+    private String dogImageUrl;
 
-
-//    public ChatRoomResponseDto(ChatRoom chatRoom, String nickname){//, String message) {
-//        this.roomId = chatRoom.getRoomId();
-//        this.nickname = nickname;
-//        }
-    }
+}

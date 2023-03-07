@@ -4,6 +4,7 @@ import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
 import hh5.twogaether.domain.chat.dto.ChatRoomListResponseDto;
 import hh5.twogaether.domain.chat.dto.InformAndMessageListDto;
 import hh5.twogaether.domain.chat.service.ChatRoomService;
+import hh5.twogaether.domain.dog.entity.Dog;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,9 +39,13 @@ public class ChatRoomController {
 
     //톡방
     @GetMapping("/rooms/{roomId}")
-    @ResponseBody
     public InformAndMessageListDto lookMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId) {
         return chatRoomService.getRoomById(userDetails, roomId);
+    }
+
+    @DeleteMapping("/rooms/{roomId}")
+    public void deleteChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId){
+        chatRoomService.deleteChatRoom(userDetails, roomId);
     }
 
 }
