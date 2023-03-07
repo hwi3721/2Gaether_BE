@@ -3,6 +3,7 @@ package hh5.twogaether.domain.loves.controller;
 import hh5.twogaether.domain.chat.service.ChatRoomService;
 import hh5.twogaether.domain.loves.dto.LoveReceivedDto;
 import hh5.twogaether.domain.loves.dto.LoveSentDto;
+import hh5.twogaether.domain.loves.entity.Love;
 import hh5.twogaether.domain.loves.service.LoveService;
 import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import static org.springframework.http.HttpStatus.*;
 public class LoveController {
 
     private final LoveService loveService;
+    private final ChatRoomService chatRoomService;
 
     //보낸 좋아요
     @GetMapping("/sent")
@@ -40,14 +42,9 @@ public class LoveController {
     @PostMapping("/accept/{dogId}")
     public ResponseEntity acceptLove(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      @PathVariable Long dogId) {
-        int matchCode = loveService.loveUser(dogId, userDetails.getUser());
-
-        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser());
-//        if (matchCode == 1) {
-//            chatRoomService.createChatRoom(dogId);
-//            return new ResponseEntity(receivedLove, CREATED);
-//        }
-        return new ResponseEntity(receivedLove, CREATED);
+        Love love = loveService.loveUser(dogId, userDetails.getUser());
+        chatRoomService.createChatRoom(love);
+        return new ResponseEntity<>("매칭 완료", CREATED);
     }
 
     //거절
@@ -55,7 +52,6 @@ public class LoveController {
     public ResponseEntity rejectLove(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                      @PathVariable Long dogId) {
         loveService.rejectLove(dogId, userDetails.getUser());
-        List<LoveReceivedDto> receivedLove = loveService.getReceivedLove(userDetails.getUser());
-        return new ResponseEntity(receivedLove, CREATED);
+        return new ResponseEntity<>("거절 완료", CREATED);
     }
 }
