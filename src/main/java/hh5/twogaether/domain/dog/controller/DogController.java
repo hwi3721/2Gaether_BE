@@ -23,18 +23,11 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 @RequestMapping(value = "/dogs") //공용으로 쓰는 주소
 public class DogController {
-
     private final DogService dogService;
     private final ImageService imageService;
 
-    @GetMapping
-    public ResponseEntity<Boolean> checkMyDog(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return new ResponseEntity<>(dogService.isExistMyDog(userDetails.getUser().getId()), OK);
-    }
-
     @PostMapping
-    private ResponseEntity<ResponseMessageDto> addMyDog(@ModelAttribute DogSignupRequestDto dogRequestDto,
-                                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
+    private ResponseEntity<ResponseMessageDto> saveDogInfo(@ModelAttribute DogSignupRequestDto dogRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Dog savedDog = dogService.saveMyDog(dogRequestDto, userDetails.getUser());
         List<String> imgUrls = imageService.upload(dogRequestDto.getImages(),savedDog);
         log.info("imgUrls = " + imgUrls);
@@ -42,23 +35,20 @@ public class DogController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<DogResponseDto> showMyDog(@PathVariable Long id ,
-                                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
+    private ResponseEntity<DogResponseDto> showDogInfo(@PathVariable Long id , @AuthenticationPrincipal UserDetailsImpl userDetails){
         return new ResponseEntity<>(dogService.showMyDog(id,userDetails.getUser()),HttpStatus.ACCEPTED);
     }
 
     @PatchMapping("/{id}")
-    private ResponseEntity patchMyDog(@PathVariable Long id,
-                                        @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                        @RequestBody DogSignupRequestDto dogSignupRequestDto){
+    private ResponseEntity patchDogInfo(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody DogSignupRequestDto dogSignupRequestDto){
         dogService.patchMyDog(id,userDetails.getUser(), dogSignupRequestDto);
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<ResponseMessageDto> deleteMyDog(@PathVariable Long id,
-                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+    private ResponseEntity<ResponseMessageDto> deleteDogInfo(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
         dogService.deleteMyDog(id,userDetails.getUser());
+
         return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "강아지 정보 삭제 완료"), OK);
     }
 }
