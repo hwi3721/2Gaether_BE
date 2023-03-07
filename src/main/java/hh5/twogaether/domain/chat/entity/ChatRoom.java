@@ -38,6 +38,15 @@ public class ChatRoom extends BaseEntity{
 //        this.dog = dog;
     }
 
+    // 좋아요 or 수락 시 채팅방 생성자
+    public ChatRoom(Long userId1, Long userId2, String nickname1, String nickname2) {
+        this.roomId = UUID.randomUUID().toString();
+        this.userId1 = userId1;
+        this.userId2 = userId2;
+        this.nickname1 = nickname1;
+        this.nickname2 = nickname2;
+    }
+
     public void ChatRoomLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
     }
