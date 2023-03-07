@@ -11,6 +11,8 @@ public class LoveSentDto {
 
     private Long userId;
 
+    private Long dogId;
+
     private String dogName;
 
     private String dogSex;
@@ -19,6 +21,7 @@ public class LoveSentDto {
 
     public LoveSentDto(Love love) {
         this.userId = love.getOpponent().getId();
+        this.dogId = love.getOpponent().getDogs().get(0).getId();
         this.dogName = love.getOpponent().getDogs().stream()
                 .filter(dog -> dog.isDelete() == false)
                 .collect(Collectors.toList()).get(0).getDogName();

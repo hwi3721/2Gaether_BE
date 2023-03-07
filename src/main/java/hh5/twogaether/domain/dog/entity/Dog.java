@@ -1,6 +1,6 @@
 package hh5.twogaether.domain.dog.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import hh5.twogaether.domain.dog.dto.DogPatchRequestDto;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.image.entity.Image;
 import hh5.twogaether.domain.users.entity.User;
@@ -46,10 +46,10 @@ public class Dog extends BaseEntity {
         this.user = user;
     }
 
-    public void patchDog(DogSignupRequestDto dogSignupRequestDto) {
-        this.dogName = (dogSignupRequestDto.getDogName()==null)? this.getDogName() : dogSignupRequestDto.getDogName();
-        this.dogSex = (dogSignupRequestDto.getDogSex()==null)? this.getDogSex() : dogSignupRequestDto.getDogSex();
-        this.dogDetails = (dogSignupRequestDto.getDogDetails()==null)? this.getDogDetails() : dogSignupRequestDto.getDogDetails();
+    public void patchDog(DogPatchRequestDto dogPatchRequestDto) {
+        this.dogName = (dogPatchRequestDto.getDogName()==null)? this.getDogName() : dogPatchRequestDto.getDogName();
+        this.dogSex = (dogPatchRequestDto.getDogSex()==null)? this.getDogSex() : dogPatchRequestDto.getDogSex();
+        this.dogDetails = (dogPatchRequestDto.getDogDetails()==null)? this.getDogDetails() : dogPatchRequestDto.getDogDetails();
     }
 
     public void deleteDog(){

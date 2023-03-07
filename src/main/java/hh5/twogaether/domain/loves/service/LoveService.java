@@ -50,7 +50,7 @@ public class LoveService {
         );
         Long opponentId = foundDog.getCreatedBy();
         User opponent = userRepository.findNotDeletedUserById(opponentId);
-        Love foundLove = loveRepository.findByMeAndOpponentId(me, opponent);
+        Love foundLove = loveRepository.findByMeAndOpponentId(opponent, me);
         if (foundLove.getMatchCode() != 1) {
             foundLove.reject();
         }
