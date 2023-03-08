@@ -28,7 +28,7 @@ public class WebSecurityConfig {
 
 //    private static final String[] test_url = {"/admin/signup", "/admin/main"};
 
-    private static final String[] permitUrl = {"/login/oauth/**","/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
+    private static final String[] permitUrl = {"/dogs","/login/oauth/**","/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
 
     private static final List<String> permitOrigin =
             List.of("https://....vercel.app");
