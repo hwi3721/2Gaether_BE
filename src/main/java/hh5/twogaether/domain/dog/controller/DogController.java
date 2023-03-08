@@ -35,7 +35,7 @@ public class DogController {
 
     @PostMapping
     private ResponseEntity<ResponseMessageDto> addMyDog(@ModelAttribute DogSignupRequestDto dogRequestDto,
-                                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                        @AuthenticationPrincipal UserDetailsImpl userDetails){
         Dog savedDog = dogService.saveMyDog(dogRequestDto, userDetails.getUser());
         List<String> imgUrls = imageService.upload(dogRequestDto.getImages(),savedDog);
         log.info("imgUrls = " + imgUrls);
@@ -49,15 +49,15 @@ public class DogController {
 
     @PatchMapping("/{dogId}")
     private ResponseEntity patchMyDog(@PathVariable Long dogId,
-                                        @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                        @RequestBody DogPatchRequestDto dogPatchRequestDto){
+                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @RequestBody DogPatchRequestDto dogPatchRequestDto){
         dogService.patchMyDog(dogId,userDetails.getUser(), dogPatchRequestDto);
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{dogId}")
     private ResponseEntity<ResponseMessageDto> deleteMyDog(@PathVariable Long dogId,
-                                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                                           @AuthenticationPrincipal UserDetailsImpl userDetails){
         dogService.deleteMyDog(dogId,userDetails.getUser());
         return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "강아지 정보 삭제 완료"), OK);
     }

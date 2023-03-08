@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.chat.entity;
 
+import hh5.twogaether.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class ChatMessage {
+public class ChatMessage {//extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
