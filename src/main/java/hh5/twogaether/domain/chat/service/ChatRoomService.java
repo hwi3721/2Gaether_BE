@@ -93,9 +93,9 @@ public class ChatRoomService {
     }
 
     public InformAndMessageListDto getRoomById(UserDetailsImpl userDetails, String roomId) {
-        Long myId = userDetails.getUser().getId();
+            Long myId = userDetails.getUser().getId();
 
-        ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
+            ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
         ChatRoomInformDto roomInformDto = new ChatRoomInformDto();
         roomInformDto.setRoomId(chatRoom.getRoomId());
         Long myUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId1() : chatRoom.getUserId2();
