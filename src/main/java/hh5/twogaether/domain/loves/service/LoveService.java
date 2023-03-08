@@ -33,7 +33,7 @@ public class LoveService {
         Love sendCase = loveRepository.findByMeAndOpponentId(me, opponent);
         Love acceptCase = loveRepository.findByMeAndOpponentId(opponent, me);
         if (sendCase == null && acceptCase == null) {
-            loveRepository.save(new Love(me, opponent));
+            sendCase = loveRepository.save(new Love(me, opponent));
         }
         if (acceptCase != null && !acceptCase.getCreatedBy().equals(me.getId())) {
             acceptCase.accept();
