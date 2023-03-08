@@ -23,10 +23,11 @@ public class ChatRoomController {
         return "/chat/room";
     }
 
-    @PostMapping("/rooms")
-    public void createRoom(@RequestBody ChatRoomCreateRequestDto createRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        chatRoomService.createChatRoom(createRequest, userDetails);
-    }
+    // 채팅방 생성  -> 일부러 주석처리해둠 필요없으면 삭제
+//    @PostMapping("/rooms")
+//    public void createRoom(@RequestBody ChatRoomCreateRequestDto createRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        chatRoomService.createChatRoom(createRequest, userDetails);
+//    }
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
@@ -40,5 +41,4 @@ public class ChatRoomController {
     public InformAndMessageListDto lookMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId) {
         return chatRoomService.getRoomById(userDetails, roomId);
     }
-
 }

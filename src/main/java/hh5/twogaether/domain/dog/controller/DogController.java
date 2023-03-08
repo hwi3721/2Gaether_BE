@@ -1,5 +1,6 @@
 package hh5.twogaether.domain.dog.controller;
 
+import hh5.twogaether.domain.dog.dto.DogPatchRequestDto;
 import hh5.twogaether.domain.dog.dto.DogResponseDto;
 import hh5.twogaether.domain.dog.dto.DogSignupRequestDto;
 import hh5.twogaether.domain.dog.entity.Dog;
@@ -41,24 +42,23 @@ public class DogController {
         return new ResponseEntity<>(new ResponseMessageDto(CREATED.value(), "강아지 정보 저장 완료"), CREATED);
     }
 
-    @GetMapping("/{id}")
-    private ResponseEntity<DogResponseDto> showMyDog(@PathVariable Long id ,
-                                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return new ResponseEntity<>(dogService.showMyDog(id,userDetails.getUser()),HttpStatus.ACCEPTED);
+    @GetMapping("/{dogId}")
+    private ResponseEntity<DogResponseDto> showDog(@PathVariable Long dogId){
+        return new ResponseEntity<>(dogService.showDog(dogId),HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping("/{id}")
-    private ResponseEntity patchMyDog(@PathVariable Long id,
+    @PatchMapping("/{dogId}")
+    private ResponseEntity patchMyDog(@PathVariable Long dogId,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                        @RequestBody DogSignupRequestDto dogSignupRequestDto){
-        dogService.patchMyDog(id,userDetails.getUser(), dogSignupRequestDto);
+                                        @RequestBody DogPatchRequestDto dogPatchRequestDto){
+        dogService.patchMyDog(dogId,userDetails.getUser(), dogPatchRequestDto);
         return new ResponseEntity(202,HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/{id}")
-    private ResponseEntity<ResponseMessageDto> deleteMyDog(@PathVariable Long id,
+    @DeleteMapping("/{dogId}")
+    private ResponseEntity<ResponseMessageDto> deleteMyDog(@PathVariable Long dogId,
                                                              @AuthenticationPrincipal UserDetailsImpl userDetails){
-        dogService.deleteMyDog(id,userDetails.getUser());
+        dogService.deleteMyDog(dogId,userDetails.getUser());
         return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "강아지 정보 삭제 완료"), OK);
     }
 }

@@ -25,7 +25,7 @@ public class LoveService {
 
     //좋아요, 수락 공통 로직
     @Transactional
-    public int loveUser(Long dogId, User me) {
+    public Love loveUser(Long dogId, User me) {
         Dog foundDog = dogRepository.findById(dogId).orElseThrow(
                 ()-> new IllegalArgumentException("그런 개는 없습니다.")
         );
@@ -33,13 +33,13 @@ public class LoveService {
         Love sendCase = loveRepository.findByMeAndOpponentId(me, opponent);
         Love acceptCase = loveRepository.findByMeAndOpponentId(opponent, me);
         if (sendCase == null && acceptCase == null) {
-            loveRepository.save(new Love(me, opponent));
+            sendCase = loveRepository.save(new Love(me, opponent));
         }
         if (acceptCase != null && !acceptCase.getCreatedBy().equals(me.getId())) {
             acceptCase.accept();
-            return acceptCase.getMatchCode();
+            return acceptCase;
         }
-        return 1;
+        return sendCase;
     }
 
     // 거절
@@ -50,7 +50,7 @@ public class LoveService {
         );
         Long opponentId = foundDog.getCreatedBy();
         User opponent = userRepository.findNotDeletedUserById(opponentId);
-        Love foundLove = loveRepository.findByMeAndOpponentId(me, opponent);
+        Love foundLove = loveRepository.findByMeAndOpponentId(opponent, me);
         if (foundLove.getMatchCode() != 1) {
             foundLove.reject();
         }
