@@ -6,6 +6,7 @@ import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
 import hh5.twogaether.domain.loves.entity.Love;
+
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
 import hh5.twogaether.security.UserDetailsImpl;
@@ -22,16 +23,20 @@ import static hh5.twogaether.exception.message.ExceptionMessage.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatRoomService {
-
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+
 
     //아마 안쓸듯 주석처리해둠
 //    public void createChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails) {
 //        Long userId1 = createRequestDto.getUserId();
 //        Long userId2 = userDetails.getUser().getId();
 //
+//        String nickname1 = user.getNickname();
+//        String nickname2 = userDetails.getUser().getNickname();
+//        ChatRoom createdChatRoom = new ChatRoom(createRequestDto, userDetails, nickname1,nickname2);//,dog.getDogImages().get(0));
+//        ChatRoom chatRoomInfo = chatRoomRepository.findByUserId1AndUserId2(user.getId(),userId2);
 //        User user = userRepository.findById(userId1).orElseThrow(
 //                () -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription())
 //        );
@@ -60,6 +65,7 @@ public class ChatRoomService {
         ChatRoom createdChatRoom = new ChatRoom(userId1,userId2,nickname1,nickname2);
         ChatRoom chatRoomInfo = chatRoomRepository.findByUserId1AndUserId2(userId1,userId2);
 
+
         if (chatRoomInfo==null && !userId1.equals(userId2)) {
             chatRoomRepository.save(createdChatRoom);
         } else {
@@ -79,19 +85,17 @@ public class ChatRoomService {
             Long otherUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId2() : chatRoom.getUserId1();
             User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
             chatRoomListResponseDto.setNickname(otherUser.getNickname());
-//            ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomOrderByCreatedAtDesc(chatRoom.getLastMessage());
-//            if (lastMessage != null) {
-//                chatRoomListResponseDto.setMessage(lastMessage.getMessage());
-//            }
+            chatRoomListResponseDto.setDogImageUrl(otherUser.getDogs().get(0).getDogImages().get(0).getImgUrl());
+            
             chatRooms.add(chatRoomListResponseDto);
         }
         return chatRooms;
     }
 
     public InformAndMessageListDto getRoomById(UserDetailsImpl userDetails, String roomId) {
-        Long myId = userDetails.getUser().getId();
+            Long myId = userDetails.getUser().getId();
 
-        ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
+            ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
         ChatRoomInformDto roomInformDto = new ChatRoomInformDto();
         roomInformDto.setRoomId(chatRoom.getRoomId());
         Long myUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId1() : chatRoom.getUserId2();
@@ -114,9 +118,11 @@ public class ChatRoomService {
         return new InformAndMessageListDto(roomInformDto,messagesResponseDtos);
     }
 
-//    public void deleteChatRoom(String id) {
+    public void deleteChatRoom(UserDetailsImpl userDetails,String id) {
 //        chatRoomMap.remove(id);
-//        chatRoomRepository.deleteById(id);
-//    }
+        Long myId = userDetails.getUser().getId();
+        userRepository.findById(myId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
+        chatRoomRepository.deleteByRoomId(id);
+    }
 
 }
