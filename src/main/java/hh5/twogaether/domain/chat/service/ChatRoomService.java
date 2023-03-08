@@ -5,8 +5,6 @@ import hh5.twogaether.domain.chat.entity.ChatMessage;
 import hh5.twogaether.domain.chat.entity.ChatRoom;
 import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
-import hh5.twogaether.domain.dog.entity.Dog;
-import hh5.twogaether.domain.dog.repository.DogRepository;
 import hh5.twogaether.domain.loves.entity.Love;
 
 import hh5.twogaether.domain.users.entity.User;
@@ -25,15 +23,10 @@ import static hh5.twogaether.exception.message.ExceptionMessage.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatRoomService {
-
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
 
-//    public void createChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails){
-//
-//        Long userId1 = createRequestDto.getUserId();
-//        Long userId2 = userDetails.getUser().getId();
 
     //아마 안쓸듯 주석처리해둠
 //    public void createChatRoom(ChatRoomCreateRequestDto createRequestDto, UserDetailsImpl userDetails) {
