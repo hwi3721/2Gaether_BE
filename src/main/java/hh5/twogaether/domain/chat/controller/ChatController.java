@@ -35,7 +35,7 @@ public class ChatController {
     @Transactional
     @MessageMapping("/chat/message")
 //    @SendTo("/topic/public")
-    public void message(@Payload ChatMessageDto chatMessageDto) { //, @AuthenticationPrincipal UserDetailsImpl userDetails
+    public void message(@Payload ChatMessageDto chatMessageDto) {
         User user = userRepository.findByUsername(chatMessageDto.getSender())
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 

@@ -13,6 +13,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom,Long> {
     ChatRoom findByUserId1AndUserId2(@Param("userId1") Long userId1, @Param("userId2") Long userId2);
     List<ChatRoom> findByUserId1OrUserId2(Long userId1, Long userId2);
     ChatRoom findByRoomId(String roomId);
+    ChatRoom deleteByRoomId(String roomId);
 //    List<ChatRoom> findByUserId1(Long UserId1);
 //    List<ChatRoom> findByUserId2(Long UserId2);
 }
