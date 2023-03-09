@@ -14,3 +14,8 @@
   - 고현우 : cicd 연결, nginx 등 서버 설정 및 연결, 소셜로그인, 좋아요와 매칭 기능, 이미지 구현
   - 이상휘 : 이메일 인증, 유저 정보
   - 이성진 : 채팅 기능, 강아지 정보
+
+<br>
+
+## 2. 기술 스택
+<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white"><img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
