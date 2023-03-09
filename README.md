@@ -18,4 +18,4 @@
 <br>
 
 ## 2. 기술 스택
-<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white"><img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"><img src="https://img.shields.io/badge/LINUX-005496?style=for-the-badge&logo=linux&logoColor=white"><img src="https://img.shields.io/badge/NGINX-3D1332?style=for-the-badge&logo=nginx&logoColor=white">
+<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white"><img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"><img src="https://img.shields.io/badge/LINUX-005496?style=for-the-badge&logo=linux&logoColor=white"><img src="https://img.shields.io/badge/NGINX-3D1332?style=for-the-badge&logo=nginx&logoColor=white"><img src="https://img.shields.io/badge/STOMPJS-3D1332?style=for-the-badge&logo=stompjs&logoColor=white">
