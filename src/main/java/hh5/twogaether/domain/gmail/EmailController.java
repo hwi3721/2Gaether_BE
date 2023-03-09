@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
     private final EmailServiceImpl emailServiceImpl;
     @GetMapping("/email/{emailCode}/{userEmail}")
-    @ResponseBody
     public String emailConfirm(@PathVariable String emailCode,
                                                                      @PathVariable String userEmail)  throws Exception {
         emailServiceImpl.emailLinkCheck(emailCode, userEmail);
