@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class ChatMessage {//extends BaseEntity {
+public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
