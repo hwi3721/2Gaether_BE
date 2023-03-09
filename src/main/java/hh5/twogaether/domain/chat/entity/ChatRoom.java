@@ -47,7 +47,7 @@ public class ChatRoom extends BaseEntity{
         this.nickname2 = nickname2;
     }
 
-    public void ChatRoomLastMessage(String lastMessage) {
+    public ChatRoom(String lastMessage) {
         this.lastMessage = lastMessage;
     }
 
