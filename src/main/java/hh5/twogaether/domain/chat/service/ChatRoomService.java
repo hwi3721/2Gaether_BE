@@ -62,11 +62,11 @@ public class ChatRoomService {
         String nickname1 = love.getMe().getNickname();
         String nickname2 = love.getOpponent().getNickname();
 
-        ChatRoom createdChatRoom = new ChatRoom(userId1,userId2,nickname1,nickname2);
-        ChatRoom chatRoomInfo = chatRoomRepository.findByUserId1AndUserId2(userId1,userId2);
+        ChatRoom createdChatRoom = new ChatRoom(userId1, userId2, nickname1, nickname2);
+        ChatRoom chatRoomInfo = chatRoomRepository.findByUserId1AndUserId2(userId1, userId2);
 
 
-        if (chatRoomInfo==null && !userId1.equals(userId2)) {
+        if (chatRoomInfo == null && !userId1.equals(userId2)) {
             chatRoomRepository.save(createdChatRoom);
         } else {
             throw new IllegalArgumentException(ALREADY_EXISTED_ROOM.getDescription());
@@ -76,7 +76,7 @@ public class ChatRoomService {
     public List<ChatRoomListResponseDto> findAllRoom(UserDetailsImpl userDetails) {
 
         Long myId = userDetails.getUser().getId();
-        List<ChatRoom> myChatRoom = chatRoomRepository.findByUserId1OrUserId2(myId, myId);
+        List<ChatRoom> myChatRoom = chatRoomRepository.findByUserId1OrUserId2OrderByModifiedAt(myId, myId);
 
         List<ChatRoomListResponseDto> chatRooms = new ArrayList<>();
         for (ChatRoom chatRoom : myChatRoom) {
@@ -86,16 +86,33 @@ public class ChatRoomService {
             User otherUser = userRepository.findById(otherUserId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));
             chatRoomListResponseDto.setNickname(otherUser.getNickname());
             chatRoomListResponseDto.setDogImageUrl(otherUser.getDogs().get(0).getDogImages().get(0).getImgUrl());
-            
+
+//            List<ChatMessage> lastMessage = chatMessageRepository.findAllByRoomId(chatRoom.getRoomId());
+//            log.info(lastMessage.get(0).toString());
+
+//            List<ChatMessage> lastMessage = chatMessageRepository.findAllByRoomIdOrderById(chatRoom.getRoomId());
+            Optional<ChatMessage> lastMessage = chatMessageRepository.findTopByRoomIdOrderByIdDesc(chatRoom.getRoomId());
+
+            String last = "";
+            if (lastMessage.isPresent()) {
+                last = lastMessage.get().getMessage();
+                log.info(last);
+            }
+
+            chatRoomListResponseDto.setMessage(last);
             chatRooms.add(chatRoomListResponseDto);
         }
+
+        Collections.sort(chatRooms, Comparator.comparing((ChatRoomListResponseDto c) -> c.getMessage() == null ? "" : c.getMessage())
+                .thenComparing(ChatRoomListResponseDto::getRoomId, Comparator.naturalOrder()));
+
         return chatRooms;
     }
 
     public InformAndMessageListDto getRoomById(UserDetailsImpl userDetails, String roomId) {
-            Long myId = userDetails.getUser().getId();
+        Long myId = userDetails.getUser().getId();
 
-            ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
+        ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
         ChatRoomInformDto roomInformDto = new ChatRoomInformDto();
         roomInformDto.setRoomId(chatRoom.getRoomId());
         Long myUserId = chatRoom.getUserId1().equals(myId) ? chatRoom.getUserId1() : chatRoom.getUserId2();
@@ -115,10 +132,10 @@ public class ChatRoomService {
             MessageResponseDto messageResponseDto = new MessageResponseDto(chatMessage); // + Sender
             messagesResponseDtos.add(messageResponseDto);
         }
-        return new InformAndMessageListDto(roomInformDto,messagesResponseDtos);
+        return new InformAndMessageListDto(roomInformDto, messagesResponseDtos);
     }
 
-    public void deleteChatRoom(UserDetailsImpl userDetails,String id) {
+    public void deleteChatRoom(UserDetailsImpl userDetails, String id) {
 //        chatRoomMap.remove(id);
         Long myId = userDetails.getUser().getId();
         userRepository.findById(myId).orElseThrow(() -> new IllegalArgumentException(NOT_EXISTED_ID.getDescription()));

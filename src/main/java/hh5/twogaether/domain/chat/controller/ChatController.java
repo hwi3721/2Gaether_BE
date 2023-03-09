@@ -8,14 +8,10 @@ import hh5.twogaether.domain.chat.repository.ChatMessageRepository;
 import hh5.twogaether.domain.chat.repository.ChatRoomRepository;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
-import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,12 +38,11 @@ public class ChatController {
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(chatMessageDto.getRoomId());
 
         ChatMessage chatMessage = new ChatMessage(chatRoom.getRoomId(), user, chatMessageDto.getMessage());
-        chatMessageRepository.save(chatMessage);
+        chatMessageRepository.saveAndFlush(chatMessage);
 
         ChatRoomRealResponseDto chatRoomRealResponseDto = new ChatRoomRealResponseDto(chatMessage);
 
 //        chatRoom.ChatRoomLastMessage(chatMessageDto.getMessage());
-//        chatRoomRepository.save(chatRoom);
 
         messagingTemplate.convertAndSend("/sub/chat/rooms/" + chatMessageDto.getRoomId(), chatRoomRealResponseDto);
     }
