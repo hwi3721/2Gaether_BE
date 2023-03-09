@@ -24,10 +24,9 @@
 
 ## 3. 실행화면
 
-![스크린샷(101)](https://user-images.githubusercontent.com/120078825/223934839-5cf9a2a6-ce26-4a2a-aabc-eac4021885ef.png)
+![스크린샷(103)](https://user-images.githubusercontent.com/120078825/223935126-6017a818-8199-4873-820a-df8edf20788a.png)
 
-![스크린샷(102)](https://user-images.githubusercontent.com/120078825/223934776-e4993c3f-4511-4237-bad9-689385fd1ba0.png)
-
+![스크린샷(104)](https://user-images.githubusercontent.com/120078825/223935151-b256eff6-b833-483c-892f-16e34681e94f.png)
 
 
 <br>
