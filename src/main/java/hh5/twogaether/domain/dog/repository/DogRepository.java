@@ -18,4 +18,5 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     List<Dog> findAllNotDeletedDogByCreatedBy(@Param("createdBy") Long createdBy);
     
     List<Dog> findByCreatedBy(Long createdBy);
+    Dog findByUserId(Long userId);
 }
