@@ -37,7 +37,7 @@ public class MatchController {
         if (love.getMatchCode() == 1) {
             chatRoomService.createChatRoom(love);
         }
-        matchService.passUser(dogId, userDetails.getUser().getId());
+        matchService.loveUser(dogId, userDetails.getUser().getId());
         return new ResponseEntity<>("좋아요 완료", CREATED);
     }
 
