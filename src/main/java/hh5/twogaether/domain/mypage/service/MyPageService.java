@@ -1,5 +1,8 @@
 package hh5.twogaether.domain.mypage.service;
 
+import hh5.twogaether.domain.dog.entity.Dog;
+import hh5.twogaether.domain.dog.repository.DogRepository;
+import hh5.twogaether.domain.dog.service.DogService;
 import hh5.twogaether.domain.mypage.dto.MyPageResponseDto;
 import hh5.twogaether.domain.mypage.dto.MyPageRequestDto;
 import hh5.twogaether.domain.users.repository.UserRepository;
@@ -10,12 +13,16 @@ import org.springframework.stereotype.Service;
 import hh5.twogaether.domain.users.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
+    private final DogRepository dogRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DogService dogService;
 
     @Transactional(readOnly = true)
     public MyPageResponseDto showMyPage(Long id) {
@@ -49,7 +56,9 @@ public class MyPageService {
         } else {
             throw new IllegalArgumentException("이미 삭제된 사용자 정보입니다.");
         }
-        user.deleteUser();  // 왜 두 번 해야만 할까
+        Dog dog = dogRepository.findByUserId(id);
+        dogService.deleteMyDog(dog.getId(), user);
+//        user.deleteUser();  // 왜 두 번 해야만 할까
     }
 }
 
