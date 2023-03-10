@@ -1,22 +1,25 @@
 package hh5.twogaether.domain.users.controller;
 
+import hh5.twogaether.domain.mypage.service.MyPageService;
 import hh5.twogaether.domain.users.dto.LoginRequestDto;
 import hh5.twogaether.domain.users.dto.LoginResponseDto;
 import hh5.twogaether.domain.users.dto.SignUpRequestDto;
 import hh5.twogaether.domain.users.dto.ResponseMessageDto;
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.service.UserService;
+import hh5.twogaether.security.UserDetailsImpl;
 import hh5.twogaether.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
 import static hh5.twogaether.security.jwt.JwtUtil.AUTHORIZATION_HEADER;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestController
@@ -24,6 +27,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class UserController {
 
     private final UserService userService;
+    private final MyPageService myPageService;
     private final JwtUtil jwtUtil;
 
     @GetMapping("/")
@@ -54,5 +58,11 @@ public class UserController {
     public ResponseEntity<ResponseMessageDto> dupcheck(@RequestBody SignUpRequestDto signUpRequestDto) {
         userService.checkEmailDuplication(signUpRequestDto.getEmail());
         return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "사용 가능한 이메일입니다."), OK);
+    }
+
+    @DeleteMapping("/users/delete")
+    public ResponseEntity<ResponseMessageDto> deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        myPageService.deleteMyPage(userDetails.getUser().getId());
+        return new ResponseEntity<>(new ResponseMessageDto(OK.value(), "사용자 정보를 삭제합니다."), OK);
     }
 }
