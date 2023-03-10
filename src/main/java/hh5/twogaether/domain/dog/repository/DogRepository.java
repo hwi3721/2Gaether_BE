@@ -15,7 +15,7 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     List<Dog> findAllNotDeletedDog();
 
     @Query("select d from Dog d where d.isDelete = false and d.createdBy =:createdBy")
-    List<Dog> findAllNotDeletedDogByCreatedBy(@Param("createdBy") Long createdBy);
+    List<Dog> findAllNotDeletedByCreatedByDog(@Param("createdBy") Long createdBy);
     
     List<Dog> findByCreatedBy(Long createdBy);
     Dog findByUserId(Long userId);
