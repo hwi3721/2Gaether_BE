@@ -22,6 +22,11 @@ public class LoveReceivedDto {
         this.dogId = love.getMe().getDogs().get(0).getId();
         this.dogName = love.getMe().getDogs().get(0).getDogName();
         this.dogSex = love.getMe().getDogs().get(0).getDogSex();
-        this.imageUrl = love.getMe().getDogs().get(0).getDogImages().get(0).getImgUrl();
+        this.imageUrl = love.getMe().getDogs().get(0).getDogImages().isEmpty()
+                ? "https://midcon.s3.ap-northeast-2.amazonaws.com/be7648fa-5b71-47c4-8b9f-a1defc6a28cc.jpg"
+                : love.getMe().getDogs().get(0).getDogImages().get(0).getImgUrl();
+
+
+        //        this.imageUrl = love.getMe().getDogs().get(0).getDogImages().get(0).getImgUrl();
     }
 }
