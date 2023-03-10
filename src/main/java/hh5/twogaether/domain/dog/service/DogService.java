@@ -66,7 +66,7 @@ public class DogService {
     }
 
     public boolean isExistMyDog(Long id) {
-        List<Dog> myDogs = dogRepository.findAllNotDeletedDogByCreatedBy(id);
+        List<Dog> myDogs = dogRepository.findAllNotDeletedByCreatedByDog(id);
         return !myDogs.isEmpty();
     }
 }
