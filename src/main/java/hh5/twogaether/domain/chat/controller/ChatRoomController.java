@@ -1,53 +1,50 @@
 package hh5.twogaether.domain.chat.controller;
 
-import hh5.twogaether.domain.chat.entity.ChatRoom;
+import hh5.twogaether.domain.chat.dto.ChatRoomCreateRequestDto;
+import hh5.twogaether.domain.chat.dto.ChatRoomListResponseDto;
+import hh5.twogaether.domain.chat.dto.InformAndMessageListDto;
 import hh5.twogaether.domain.chat.service.ChatRoomService;
+import hh5.twogaether.domain.dog.entity.Dog;
+import hh5.twogaether.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/chat")
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
 
-    // 채팅 리스트 화면
     @GetMapping("/room")
     public String rooms() {
         return "/chat/room";
     }
+
+    // 채팅방 생성  -> 일부러 주석처리해둠 필요없으면 삭제
+//    @PostMapping("/rooms")
+//    public void createRoom(@RequestBody ChatRoomCreateRequestDto createRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        chatRoomService.createChatRoom(createRequest, userDetails);
+//    }
+
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
-    @ResponseBody
-    public List<ChatRoom> room() {
+    public List<ChatRoomListResponseDto> listRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatRoomService.findAllRoom(userDetails);
+    }
 
-        return chatRoomService.findAllRoom();
+    //톡방
+    @GetMapping("/rooms/{roomId}")
+    public InformAndMessageListDto lookMessage(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId) {
+        return chatRoomService.getRoomById(userDetails, roomId);
+    }
 
+    @DeleteMapping("/rooms/{roomId}")
+    public void deleteChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable("roomId") String roomId){
+        chatRoomService.deleteChatRoom(userDetails, roomId);
+    }
 
-    }
-    // 채팅방 생성
-    @PostMapping("/room")
-    @ResponseBody
-    public ChatRoom createRoom() {
-        return chatRoomService.createChatRoom();
-    }
-    // 채팅방 입장 화면
-    @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(Model model, @PathVariable String roomId) {
-        model.addAttribute("roomId", roomId);
-        return "/chat/roomdetail";
-    }
-    // 특정 채팅방 조회
-    @GetMapping("/room/{roomId}")
-    @ResponseBody
-    public ChatRoom roomInfo(@PathVariable String roomId) {
-        return chatRoomService.findRoomById(roomId);
-    }
 }

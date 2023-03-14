@@ -1,7 +1,8 @@
-package hh5.twogaether.oauth;
+package hh5.twogaether.oauth.service;
 
 import hh5.twogaether.domain.users.entity.User;
 import hh5.twogaether.domain.users.repository.UserRepository;
+import hh5.twogaether.oauth.dto.OauthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -18,6 +19,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+
+import static hh5.twogaether.domain.users.entity.UserRoleEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +45,7 @@ public class OauthService {
         OauthTokenResponseDto tokenResponse = getToken(code, provider);
         // 2. 액세스 토큰으로 유저 정보 받아오기
         String email = getUerProfile(providerName, tokenResponse, provider);
-
         return email;
-
     }
 
     // 1-1. authorization code 로 토큰 요청 webflux 로 WebClient 사용해서 요청
@@ -83,7 +84,6 @@ public class OauthService {
         } else {
             throw new IllegalAccessException("허용되지 않은 접근입니다.");
         }
-
         String provide = oauth2UserInfo.getProvider();
         String nickname = oauth2UserInfo.getNickname();
         String email = oauth2UserInfo.getEmail();
@@ -91,7 +91,7 @@ public class OauthService {
         Optional<User> foundUser = userRepository.findByUsername(email);
 
         if (foundUser.isEmpty()) {
-            User user = new User(nickname, email, provide);
+            User user = new User(nickname, email, provide, USER);
             userRepository.save(user);
         }
         return email;
@@ -108,5 +108,4 @@ public class OauthService {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
     }
-
 }

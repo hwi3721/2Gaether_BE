@@ -26,9 +26,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private static final String[] test_url = {"/**","/admin/signup", "/admin/main"};
+//    private static final String[] test_url = {"/admin/signup", "/admin/main"};
 
-    private static final String[] permitUrl = {"/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
+    private static final String[] permitUrl = {"/dogs","/login/oauth/**","/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
 
     private static final List<String> permitOrigin =
             List.of("https://....vercel.app");
@@ -47,7 +47,7 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // h2-console 사용 및 resources 접근 허용 설정
+//     h2-console 사용 및 resources 접근 허용 설정
 //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
 //        return web -> web.ignoring()
@@ -66,11 +66,12 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers(permitUrl).permitAll()
-                .antMatchers(test_url).permitAll()
+//                .antMatchers(test_url).permitAll()
+                .antMatchers("/ws-stomp").permitAll()
+                .antMatchers("/ws-stomp/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
@@ -80,7 +81,8 @@ public class WebSecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
-        config.addAllowedOrigin("https://....vercel.app");
+        config.addAllowedOrigin("https://final-hanghae.vercel.app/");
+        config.addAllowedOrigin("https://twogaether.site/");
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedMethod("*");
 //        config.setAllowedHeaders(permitHeader);
@@ -93,7 +95,6 @@ public class WebSecurityConfig {
         config.setAllowCredentials(true);
 
         corsConfigurationSource.registerCorsConfiguration("/**", config);
-
         return corsConfigurationSource;
     }
 }

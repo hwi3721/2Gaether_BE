@@ -1,4 +1,4 @@
-package hh5.twogaether.oauth;
+package hh5.twogaether.oauth.service;
 
 import lombok.extern.slf4j.Slf4j;
 
