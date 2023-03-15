@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RequestMapping("/users")
 @Controller
@@ -13,13 +14,16 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
     private final EmailServiceImpl emailServiceImpl;
     @GetMapping("/email/{emailCode}/{userEmail}")
-    public String emailConfirm(@PathVariable String emailCode,
+    public ModelAndView emailConfirm(@PathVariable String emailCode,
                                                                      @PathVariable String userEmail)  throws Exception {
         emailServiceImpl.emailLinkCheck(emailCode, userEmail);
 
         EmailCheckSuccessResponseDto emailCheckSuccessResponseDto = new EmailCheckSuccessResponseDto(200, ResponseMessage.EMAIL_SUCCESS_CHECK_LINK);
 //        return new ResponseEntity<>(emailCheckSuccessResponseDto, HttpStatus.OK);
-        return "/email/email";
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/email/email");
+        return modelAndView;
+//        return "/email/email";
     }
 
     @GetMapping("/pwreset/{emailCode}/{userEmail}")
