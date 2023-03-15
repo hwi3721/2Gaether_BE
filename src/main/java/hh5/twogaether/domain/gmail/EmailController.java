@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EmailController {
     private final EmailServiceImpl emailServiceImpl;
+    @ResponseBody
     @GetMapping("/email/{emailCode}/{userEmail}")
     public String emailConfirm(@PathVariable String emailCode,
                                                                      @PathVariable String userEmail)  throws Exception {
