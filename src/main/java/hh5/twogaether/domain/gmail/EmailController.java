@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class EmailController {
     private final EmailServiceImpl emailServiceImpl;
-//     @ResponseBody
+    @ResponseBody
     @GetMapping("/email/{emailCode}/{userEmail}")
     public String emailConfirm(@PathVariable String emailCode,
                                                                      @PathVariable String userEmail)  throws Exception {
