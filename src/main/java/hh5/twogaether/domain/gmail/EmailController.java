@@ -21,4 +21,12 @@ public class EmailController {
 //        return new ResponseEntity<>(emailCheckSuccessResponseDto, HttpStatus.OK);
         return "/email/email";
     }
+
+    //@GetMapping("/pwreset/{emailCode}/{userEmail}")
+    //public String pwReset(@PathVariable String emailCode,
+    //                     @PathVariable String userEmail)throws Exception {
+    //    emailServiceImpl.pwLinkCheck(emailCode, userEmail);
+    //    EmailCheckSuccessResponseDto emailCheckSuccessResponseDto = new EmailCheckSuccessResponseDto(200, ResponseMessage.EMAIL_SUCCESS_CHECK_LINK);
+    //    return "비밀번호를 초기화해주는 엄청난 html";
+    //}
 }

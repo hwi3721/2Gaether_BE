@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static hh5.twogaether.exception.message.ExceptionMessage.*;
@@ -40,9 +41,13 @@ public class UserService {
         }
         if (users.getEmailCheck() == 0) {
             throw new BadCredentialsException(INVALID_EMAIL_ACCOUNT.getDescription());
-        } //  로그인 시 이메일 인증 여부 확인
+        } //  로그인 시 이메일 인증 여부
+        if (users.isDelete()) {
+            throw new BadCredentialsException(ALREADY_DELETED_ID.getDescription());
+        }
         return users;
     }
+
 
     public void checkEmailDuplication(String email) {
         Optional<User> foundUser = userRepository.findByUsername(email);
