@@ -48,6 +48,7 @@ public class UserService {
         return users;
     }
 
+
     public void checkEmailDuplication(String email) {
         Optional<User> foundUser = userRepository.findByUsername(email);
 
